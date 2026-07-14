@@ -1,0 +1,37 @@
+﻿# Rider
+.idea/
+
+# Visual Studio
+.vs/
+
+# Build output
+bin/
+obj/
+
+# User settings
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Test Results
+TestResults/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish
+publish/
+
+# Environment
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
