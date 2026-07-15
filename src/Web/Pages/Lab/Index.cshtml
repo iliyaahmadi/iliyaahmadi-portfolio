@@ -1,19 +1,58 @@
 ﻿@page
-@model Web.Pages.Lab.Index
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Lab";
+    Layout = "/Pages/Lab/Shared/_LabLayout.cshtml";
 }
 
-<!DOCTYPE html>
+<section class="min-h-[70vh] flex flex-col items-center justify-center px-6 font-mono">
+    <div id="boot-lines" class="text-emerald-400 text-sm space-y-1 mb-8"></div>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div class="text-center">
-    <h1 class="display-4">Under Development ...</h1>
-</div>
-</body>
-</html>
+    <div id="lab-content" class="opacity-0 transition-opacity duration-700 text-center max-w-lg">
+        <h1 class="text-2xl text-white font-bold">&lt;/Lab&gt;</h1>
+        <p class="text-slate-400 mt-3 text-sm leading-relaxed">
+            A collection of small backend experiments — each one self-contained,
+            each one built to understand a specific piece of technology.
+        </p>
+
+        <div class="mt-10 grid gap-4 text-left">
+            <a href="#" class="block border border-slate-800 hover:border-emerald-500/50 transition rounded-lg p-4">
+                <div class="text-emerald-400 text-xs">01</div>
+                <div class="text-white text-sm font-medium mt-1">RabbitMQ — Order Events</div>
+                <div class="text-slate-500 text-xs mt-1">Producer/consumer, durability, DLQ</div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    const lines = [
+        "$ connecting to lab environment...",
+        "$ loading experiments...",
+        "$ ready."
+    ];
+    const container = document.getElementById('boot-lines');
+    let i = 0;
+
+    function typeLine() {
+        if (i >= lines.length) {
+            document.getElementById('lab-content').classList.remove('opacity-0');
+            return;
+        }
+        const el = document.createElement('div');
+        container.appendChild(el);
+        let text = lines[i];
+        let j = 0;
+        const interval = setInterval(() => {
+            el.textContent = text.slice(0, j + 1) + '_';
+            j++;
+            if (j === text.length) {
+                clearInterval(interval);
+                el.textContent = text;
+                i++;
+                setTimeout(typeLine, 200);
+            }
+        }, 25);
+    }
+
+    typeLine();
+</script>

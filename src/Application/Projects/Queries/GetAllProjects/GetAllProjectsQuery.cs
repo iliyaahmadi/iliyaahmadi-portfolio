@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Projects.Queries.GetAllProjects;
 
-public record GetAllProjectsQuery : IRequest<List<Project>>;
+public record GetAllProjectsQuery(string Culture = "en") : IRequest<List<Project>>;

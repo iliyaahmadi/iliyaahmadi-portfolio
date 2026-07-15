@@ -1,4 +1,216 @@
-﻿@page
-<div class="min-h-screen bg-slate-900 text-white flex items-center justify-center">
-    <h1 class="text-4xl font-bold">Tailwind is working</h1>
-</div>
+﻿    @page
+    @model Web.Pages.IndexModel
+    @{
+        ViewData["Title"] = "Home";
+    }
+
+    <!-- HERO -->
+    <section class="min-h-[85vh] flex items-center">
+        <div class="max-w-5xl mx-auto px-6 grid sm:grid-cols-[220px_1fr] gap-10 items-center">
+
+            <div class="w-[200px] h-[240px] rounded-2xl bg-slate-100 dark:bg-slate-800 shadow-2xl shadow-slate-400/40 dark:shadow-black/40 ring-1 ring-slate-200 dark:ring-0 mx-auto sm:mx-0">
+                <img src="~/images/photo.png" class="w-full h-full object-cover rounded-2xl" alt="Iliya Ahmadi" />
+            </div>
+
+            <div>
+                <p class="text-sky-600 dark:text-sky-400 text-sm mb-2">@Model.Content.Greeting</p>
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-white">@Model.Content.Name</h1>
+                <p class="text-slate-600 dark:text-slate-400 mt-2">@Model.Content.Title</p>
+                <p class="text-slate-700 dark:text-slate-300 mt-5 max-w-md leading-relaxed">
+                    @Model.Content.Bio
+                </p>
+                <div class="mt-6 flex gap-3">
+                    <a href="/#contact"
+                       class="inline-block bg-sky-500 hover:bg-sky-400 transition text-white dark:text-slate-900 font-medium px-6 py-3 rounded-lg">
+                        Get in touch
+                    </a>
+                    <a href="~/files/IliyaAhmadiCV.pdf" download
+                       class="inline-flex items-center gap-2 border border-slate-300 dark:border-slate-700 hover:border-sky-500 transition text-slate-900 dark:text-white font-medium px-6 py-3 rounded-lg">
+                        Download CV
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="resume" class="py-24">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Experience</h2>
+            <div class="w-8 h-0.5 bg-sky-400 mt-2 mb-12"></div>
+
+            <div class="flex flex-col">
+                @{
+                    var grouped = Model.Experience
+                        .GroupBy(e => e.GroupKey)
+                        .Select(g => new { Company = g.First().Company, Entries = g.ToList() })
+                        .ToList();
+                }
+
+                @for (int i = 0; i < grouped.Count; i++)
+                {
+                    var group = grouped[i];
+                    var isLast = i == grouped.Count - 1;
+
+                    <div class="flex gap-5">
+                        <div class="flex flex-col items-center flex-shrink-0">
+                            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 border border-sky-500/40 flex items-center justify-center text-xs text-sky-600 dark:text-sky-400 overflow-hidden">
+                                @if (!string.IsNullOrEmpty(group.Entries[0].LogoUrl))
+                                {
+                                    <img src="@group.Entries[0].LogoUrl" class="w-full h-full object-contain p-1" alt="@group.Company" />
+                                }
+                                else
+                                {
+                                    @group.Company.Substring(0, 1)
+                                }
+                            </div>
+                            @if (!isLast)
+                            {
+                                <div class="w-px flex-1 bg-slate-300 dark:bg-slate-700 min-h-[24px]"></div>
+                            }
+                        </div>
+
+                        <div class="pb-10 w-full">
+                            <div class="text-slate-900 dark:text-white font-medium">@group.Company</div>
+
+                            <div class="mt-3 flex flex-col gap-5">
+                                @foreach (var entry in group.Entries)
+                                {
+                                    <div class="@(group.Entries.Count > 1 ? "pl-4 border-l border-slate-200 dark:border-slate-800" : "")">
+                                        @if (entry.Team is not null)
+                                        {
+                                            <div class="text-slate-700 dark:text-slate-300 text-sm font-medium">@entry.Team</div>
+                                        }
+                                        <div class="text-slate-500 text-sm mt-0.5">@entry.DateRange</div>
+                                        <ul class="mt-2 space-y-1.5 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                                            @foreach (var point in entry.Highlights)
+                                            {
+                                                <li class="flex gap-2">
+                                                    <span class="text-sky-500 dark:text-sky-400">•</span>
+                                                    <span>@point</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="py-24 bg-slate-50 dark:bg-slate-950/40">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Projects</h2>
+            <div class="w-8 h-0.5 bg-sky-400 mt-2 mb-12"></div>
+
+            <div class="grid sm:grid-cols-2 gap-6">
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-slate-900 dark:text-white font-medium text-lg">@project.Title</h3>
+                            @if (!string.IsNullOrEmpty(project.Status))
+                            {
+                                <span class="text-[10px] uppercase tracking-wide bg-amber-500/15 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full">
+                                    @project.Status
+                                </span>
+                            }
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 leading-relaxed flex-1">@project.Description</p>
+
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            @foreach (var tech in project.TechStack)
+                            {
+                                <span class="text-xs bg-slate-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300 px-2.5 py-1 rounded-md">@tech</span>
+                            }
+                        </div>
+
+                        <div class="flex gap-4 mt-5 text-sm">
+                            @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                            {
+                                <a href="@project.GitHubUrl" target="_blank" class="text-sky-600 dark:text-sky-400 hover:text-sky-500 dark:hover:text-sky-300 transition">GitHub →</a>
+                            }
+                            @if (!string.IsNullOrEmpty(project.LiveDemoUrl))
+                            {
+                                <a href="@project.LiveDemoUrl" target="_blank" class="text-sky-600 dark:text-sky-400 hover:text-sky-500 dark:hover:text-sky-300 transition">Live demo →</a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Contact</h2>
+            <div class="w-8 h-0.5 bg-sky-400 mt-2 mb-12"></div>
+
+            <div class="grid sm:grid-cols-2 gap-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm">
+
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-slate-900 dark:text-white">Let's talk</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mt-3 leading-relaxed">
+                            Open to remote backend roles and relocation opportunities. Reach out directly or send a message.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex flex-col gap-3 text-sm">
+                        <a href="mailto:iliyahmdi.info@gmail.com" class="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2" /></svg>
+                            iliyahmdi.info@gmail.com
+                        </a>
+                        <a href="https://linkedin.com/in/iliyaahmadi" target="_blank" class="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.048c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 110-4.124 2.062 2.062 0 010 4.124zM7.114 20.452H3.56V9h3.554v11.452z"/></svg>
+                            linkedin.com/in/iliyaahmadi
+                        </a>
+                        <a href="https://github.com/iliyaahmadi" target="_blank" class="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.207 11.387.6.113.793-.26.793-.577 0-.285-.01-1.04-.015-2.04-3.338.725-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.42-1.305.762-1.605-2.665-.303-5.466-1.333-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.5 11.5 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.104.823 2.226 0 1.606-.014 2.902-.014 3.297 0 .319.192.694.801.576C20.566 21.796 24 17.298 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                            github.com/iliyaahmadi
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    @if (Model.MessageSent)
+                    {
+                        <div class="h-full flex items-center justify-center bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 rounded-xl p-6 text-sm text-center">
+                            Thanks — your message has been sent. I'll get back to you soon.
+                        </div>
+                    }
+                    else
+                    {
+                        <form method="post" class="flex flex-col gap-3">
+                            <input asp-for="Input.Name" placeholder="Name"
+                                   class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition" />
+                            <span asp-validation-for="Input.Name" class="text-red-500 dark:text-red-400 text-xs"></span>
+
+                            <input asp-for="Input.Email" placeholder="Email"
+                                   class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition" />
+                            <span asp-validation-for="Input.Email" class="text-red-500 dark:text-red-400 text-xs"></span>
+
+                            <textarea asp-for="Input.Message" placeholder="Message" rows="4"
+                                      class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition resize-none"></textarea>
+                            <span asp-validation-for="Input.Message" class="text-red-500 dark:text-red-400 text-xs"></span>
+
+                            <button type="submit"
+                                    class="bg-sky-500 hover:bg-sky-400 transition text-white dark:text-slate-900 font-medium py-3 rounded-lg mt-1">
+                                Send message
+                            </button>
+                        </form>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </section>

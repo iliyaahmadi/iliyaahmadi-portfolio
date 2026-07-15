@@ -4,5 +4,5 @@ namespace Application.Projects;
 
 public interface IProjectSource
 {
-    Task<List<Project>> GetAllAsync();
+    Task<List<Project>> GetAllAsync(string culture);
 }

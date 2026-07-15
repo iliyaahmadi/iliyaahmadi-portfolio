@@ -1,0 +1,50 @@
+﻿[
+  {
+    "company": "Part Software Group",
+    "role": "Software Engineer",
+    "team": "Digital Signature Team",
+    "dateRange": "2025 - Feb 2026",
+    "highlights": [
+      "Contributed to building a Certificate Authority product from scratch, implementing OCSP per RFC 6960 for 10,000+ certificates.",
+      "Developed admin panel pages (Razor Pages) for certificate lifecycle management across multiple CAs/RAs/OCSPs, including CRL distribution routing via YARP."
+    ],
+    "logoUrl": "/images/logos/partsoftware.png",
+    "groupKey": "part-software-group"
+  },
+  {
+    "company": "Part Software Group",
+    "role": "Software Engineer",
+    "team": "Infrastructure Team",
+    "dateRange": "Aug 2024 - 2025",
+    "highlights": [
+      "Designed and maintained a service layer within the company's internal API gateway in Node.js, used by all 6 product teams.",
+      "Built version control and lifecycle management for 100+ internal API wrappers, reducing cross-team maintenance overhead by 50%."
+    ],
+    "logoUrl": "/images/logos/partsoftware.png",
+    "groupKey": "part-software-group"
+  },
+  {
+    "company": "Betatik",
+    "role": "Software Engineer",
+    "team": null,
+    "dateRange": "Apr 2024 - Aug 2024",
+    "highlights": [
+      "Migrated a legacy MVC backend to a layered Node.js/Express.js architecture, accelerating feature deployment by 40%.",
+      "Migrated MongoDB to domestic servers, achieving a 2.5x improvement in database performance."
+    ],
+    "logoUrl": "/images/logos/betatik.png",
+    "groupKey": "betatik"
+  },
+  {
+    "company": "Freelance",
+    "role": "Software Engineer",
+    "team": null,
+    "dateRange": "Oct 2022 - Mar 2024",
+    "highlights": [
+      "Built backend and frontend for an e-commerce platform using Node.js, PostgreSQL, and React.js.",
+      "Developed automation scripts, Telegram bots, and a .NET WinForms accounting application."
+    ],
+    "logoUrl": "",
+    "groupKey": "freelance"
+  }
+]

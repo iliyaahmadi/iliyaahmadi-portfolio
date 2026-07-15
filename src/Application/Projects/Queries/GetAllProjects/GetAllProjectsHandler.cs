@@ -7,13 +7,8 @@ public class GetAllProjectsHandler : IRequestHandler<GetAllProjectsQuery, List<P
 {
     private readonly IProjectSource _projectSource;
 
-    public GetAllProjectsHandler(IProjectSource projectSource)
-    {
-        _projectSource = projectSource;
-    }
+    public GetAllProjectsHandler(IProjectSource projectSource) => _projectSource = projectSource;
 
     public async Task<List<Project>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
-    {
-        return await _projectSource.GetAllAsync();
-    }
+        => await _projectSource.GetAllAsync(request.Culture);
 }

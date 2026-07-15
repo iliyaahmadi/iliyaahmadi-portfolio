@@ -1,51 +1,76 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Iliya Ahmadi</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = { darkMode: 'class' };
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    }
+    </script>
 
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
 </head>
-<body class="bg-slate-900 text-white">
-
-<header class="fixed top-0 left-0 w-full z-50 bg-slate-900/80 backdrop-blur border-b border-slate-800">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors">
+    
+<header class="fixed top-0 left-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
     <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
         <a asp-page="/Index" class="font-bold text-lg tracking-tight">Iliya Ahmadi</a>
 
-        <button id="nav-toggle" class="sm:hidden text-white" aria-label="Toggle navigation">
+        <button id="nav-toggle" class="sm:hidden text-slate-900 dark:text-white" aria-label="Toggle navigation">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
 
-        <ul id="nav-menu" class="hidden sm:flex gap-6 text-sm font-medium">
-            <li><a href="/#resume" class="hover:text-sky-400 transition">Resume</a></li>
-            <li><a href="/#projects" class="hover:text-sky-400 transition">Projects</a></li>
-            <li><a href="/#contact" class="hover:text-sky-400 transition">Contact</a></li>
-            <li><a asp-page="/MyLab/Index" class="hover:text-sky-400 transition">MyLab</a></li>
+        <ul id="nav-menu" class="hidden sm:flex items-center gap-6 text-sm font-medium">
+            <li><a href="/#resume" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Resume</a></li>
+            <li><a href="/#projects" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Work</a></li>
+            <li><a href="/#contact" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Contact</a></li>
+            <li>
+                <a asp-page="/Lab/Index"
+                   class="border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition px-3 py-1.5 rounded-md text-xs font-mono tracking-wide">
+                    &lt;/Lab&gt;
+                </a>
+            </li>
         </ul>
     </nav>
 
     <ul id="nav-menu-mobile" class="hidden sm:hidden flex-col gap-4 px-6 pb-4 text-sm font-medium">
-        <li><a href="/#resume" class="block hover:text-sky-400 transition">Resume</a></li>
-        <li><a href="/#projects" class="block hover:text-sky-400 transition">Projects</a></li>
-        <li><a href="/#contact" class="block hover:text-sky-400 transition">Contact</a></li>
-        <li><a asp-page="/MyLab/Index" class="block hover:text-sky-400 transition">MyLab</a></li>
+        <li><a href="/#resume" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Resume</a></li>
+        <li><a href="/#projects" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Work</a></li>
+        <li><a href="/#contact" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Contact</a></li>
+        <li><a asp-page="/Lab/Index" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">&lt;/Lab&gt;</a></li>
+        <li><button onclick="toggleTheme()" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Toggle theme</button></li>
     </ul>
 </header>
-
+<button onclick="toggleTheme()"
+        class="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-white dark:bg-slate-800 border border-l-0 border-slate-200 dark:border-slate-700 rounded-r-full pl-2 pr-3 py-3 shadow-md hover:pl-3 transition-all"
+        aria-label="Toggle theme">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-600 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+</button>
 <main class="pt-16">
     @RenderBody()
 </main>
 
-<footer class="border-t border-slate-800 text-slate-500 text-sm text-center py-6">
+<footer class="border-t border-slate-200 dark:border-slate-800 text-slate-500 text-sm text-center py-6">
     &copy; 2026 Iliya Ahmadi
 </footer>
 
 <script>
+    function toggleTheme() {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
+
     document.getElementById('nav-toggle').addEventListener('click', () => {
         document.getElementById('nav-menu-mobile').classList.toggle('hidden');
         document.getElementById('nav-menu-mobile').classList.toggle('flex');

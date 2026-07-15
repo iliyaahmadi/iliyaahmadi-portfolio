@@ -1,0 +1,51 @@
+﻿[
+  {
+    "title": "Portfolio",
+    "description": "Personal portfolio website showcasing my projects, professional experience, and backend experiments, built with Clean Architecture and CQRS.",
+    "techStack": ["ASP.NET Core", "Razor Pages", "C#", "Clean Architecture", "CQRS", "MediatR"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/iliyaahmadi-portfolio",
+    "liveDemoUrl": null,
+    "imageUrl": null
+  },
+  {
+    "title": "Mohajer",
+    "description": "AI-powered web app guiding Iranians through emigration decisions, built with Clean Architecture and CQRS, integrating the Claude API for AI-driven guidance.",
+    "techStack": ["ASP.NET Core", "C#", "Clean Architecture", "CQRS", "Claude API", "React"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/Mohajer",
+    "liveDemoUrl": null,
+    "imageUrl": null,
+    "status": "In Development"
+  },
+  {
+    "title": "OutRight",
+    "description": "E-commerce web app for gaming products, with a React frontend and a separate Node.js/Express REST API handling authentication, products, and orders.",
+    "techStack": ["React", "Material UI", "Node.js", "Express", "PostgreSQL", "Sequelize", "JWT Authentication"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/OutRight",
+    "liveDemoUrl": null,
+    "imageUrl": null
+  },
+  {
+    "title": "OutRight API",
+    "description": "REST API powering OutRight, handling authentication, product catalog, and order management with PostgreSQL and JWT-based auth.",
+    "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT Authentication", "bcrypt"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/OutRightApi",
+    "liveDemoUrl": null,
+    "imageUrl": null
+  },
+  {
+    "title": "Rockify",
+    "description": "Music streaming web app frontend with a React interface for browsing and playing tracks, connected to a custom Node.js backend.",
+    "techStack": ["React", "Material UI", "Axios", "React Router"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/Rockify",
+    "liveDemoUrl": null,
+    "imageUrl": null
+  },
+  {
+    "title": "Rockify API",
+    "description": "Backend service for Rockify, exposing REST APIs for authentication, track/playlist data, and file uploads with PostgreSQL.",
+    "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT Authentication", "Multer"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/RockifyApi",
+    "liveDemoUrl": null,
+    "imageUrl": null
+  }
+]
