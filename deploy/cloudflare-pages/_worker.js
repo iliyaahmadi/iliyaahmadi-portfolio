@@ -1,4 +1,4 @@
-const RENDER_ORIGIN = "https://iliyaahmadi-portfolio.onrender.com";
+const RENDER_ORIGIN = "https://iliyaahmadi.onrender.com";
 const STATIC_PATH_PREFIXES = ["/images/", "/files/", "/css/", "/js/", "/lib/"];
 
 function isStaticRequest(request, pathname) {
