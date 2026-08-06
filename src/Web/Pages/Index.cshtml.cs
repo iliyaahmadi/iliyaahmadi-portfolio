@@ -13,33 +13,62 @@ namespace Web.Pages;
 public class IndexModel : PageModel
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<IndexModel> _logger;
 
     public HomeContent Content { get; set; } = null!;
     public List<ExperienceEntry> Experience { get; set; } = [];
     public List<Project> Projects { get; set; } = [];
+    public string Culture { get; set; } = "en";
 
     [BindProperty]
     public ContactFormInput Input { get; set; } = new();
 
     public bool MessageSent { get; set; }
+    public bool MessageFailed { get; set; }
 
-    public IndexModel(IMediator mediator)
+    public IndexModel(IMediator mediator, ILogger<IndexModel> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
 
-    public async Task OnGetAsync() => await LoadContentAsync();
+    public async Task OnGetAsync(string? lang)
+    {
+        if (!string.IsNullOrEmpty(lang) && (lang == "en" || lang == "fa"))
+        {
+            Response.Cookies.Append("culture", lang, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            Culture = lang;
+        }
+        else
+        {
+            Culture = Request.Cookies["culture"] ?? "en";
+        }
+
+        ViewData["Culture"] = Culture;
+        await LoadContentAsync();
+    }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        Culture = Request.Cookies["culture"] ?? "en";
+        ViewData["Culture"] = Culture;
+
         if (!ModelState.IsValid)
         {
             await LoadContentAsync();
             return Page();
         }
 
-        await _mediator.Send(new SendContactMessageCommand(Input.Name, Input.Email, Input.Message));
-        MessageSent = true;
+        try
+        {
+            await _mediator.Send(new SendContactMessageCommand(Input.Name, Input.Email, Input.Message));
+            MessageSent = true;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "The portfolio contact message could not be sent.");
+            MessageFailed = true;
+        }
 
         await LoadContentAsync();
         return Page();
@@ -47,9 +76,9 @@ public class IndexModel : PageModel
 
     private async Task LoadContentAsync()
     {
-        Content = await _mediator.Send(new GetHomeContentQuery("en"));
-        Experience = await _mediator.Send(new GetAllExperienceQuery("en"));
-        Projects = await _mediator.Send(new GetAllProjectsQuery("en"));
+        Content = await _mediator.Send(new GetHomeContentQuery(Culture));
+        Experience = await _mediator.Send(new GetAllExperienceQuery(Culture));
+        Projects = await _mediator.Send(new GetAllProjectsQuery(Culture));
     }
 
     public class ContactFormInput

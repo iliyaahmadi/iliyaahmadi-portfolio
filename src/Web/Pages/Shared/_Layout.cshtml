@@ -1,82 +1,152 @@
-﻿<html>
+@{
+    var culture = ViewData["Culture"]?.ToString() ?? "en";
+    var isRtl = culture == "fa";
+}
+<!DOCTYPE html>
+<html lang="@culture" dir="@(isRtl ? "rtl" : "ltr")" class="scroll-smooth">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Iliya Ahmadi - software engineer focused on backend systems with .NET and Node.js." />
     <title>@ViewData["Title"] - Iliya Ahmadi</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script>
+        if (localStorage.getItem('theme') !== 'light') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-    tailwind.config = { darkMode: 'class' };
-    if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-    }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'Vazirmatn', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace']
+                    },
+                    colors: {
+                        canvas: '#f0f2ec',
+                        ink: '#1c1d1a',
+                        forest: '#3f6b4f'
+                    }
+                }
+            }
+        };
     </script>
-
+    <style>
+        body {
+            font-family: 'IBM Plex Sans', 'Vazirmatn', sans-serif;
+            background-image:
+                radial-gradient(circle at 10% 8%, rgba(63, 107, 79, .10), transparent 30rem),
+                radial-gradient(circle at 92% 30%, rgba(174, 137, 78, .07), transparent 27rem);
+            background-attachment: fixed;
+        }
+        .dark body { background-image: none; }
+        [dir="rtl"] body { font-family: 'Vazirmatn', 'IBM Plex Sans', sans-serif; }
+        ::selection { color: #fff; background: #3f6b4f; }
+        .pixel-art { image-rendering: pixelated; }
+        .portrait-flip { perspective: 1000px; }
+        .portrait-flip-inner {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform .65s cubic-bezier(.2, .75, .25, 1);
+        }
+        .portrait-flip:hover .portrait-flip-inner,
+        .portrait-flip:focus-visible .portrait-flip-inner { transform: rotateY(180deg); }
+        .portrait-flip-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .portrait-flip-back { transform: rotateY(180deg); }
+        @@media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .portrait-flip-inner { transition: none; }
+        }
+    </style>
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors">
-    
-<header class="fixed top-0 left-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
-    <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
-        <a asp-page="/Index" class="font-bold text-lg tracking-tight">Iliya Ahmadi</a>
+<body class="overflow-x-hidden bg-canvas text-ink antialiased transition-colors dark:bg-[#151613] dark:text-[#ecece5]">
 
-        <button id="nav-toggle" class="sm:hidden text-slate-900 dark:text-white" aria-label="Toggle navigation">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+<header class="sticky top-0 z-50 border-b border-black/10 bg-canvas/95 backdrop-blur dark:border-white/10 dark:bg-[#151613]/95">
+    <nav class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Main navigation">
+        <a asp-page="/Index" class="text-sm font-semibold tracking-tight">Iliya Ahmadi</a>
 
-        <ul id="nav-menu" class="hidden sm:flex items-center gap-6 text-sm font-medium">
-            <li><a href="/#resume" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Resume</a></li>
-            <li><a href="/#projects" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Work</a></li>
-            <li><a href="/#contact" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Contact</a></li>
-            <li>
-                <a asp-page="/Lab/Index"
-                   class="border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition px-3 py-1.5 rounded-md text-xs font-mono tracking-wide">
-                    &lt;/Lab&gt;
-                </a>
-            </li>
+        <ul class="hidden items-center gap-7 text-sm md:flex">
+            <li><a href="/#work" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(isRtl ? "پروژه‌ها" : "Work")</a></li>
+            <li><a href="/#experience" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(isRtl ? "تجربه" : "Experience")</a></li>
+            <li><a href="/#skills" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(isRtl ? "مهارت‌ها" : "Skills")</a></li>
+            <li><a href="/#contact" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(isRtl ? "تماس" : "Contact")</a></li>
         </ul>
+
+        <div class="flex items-center gap-2">
+            <a asp-page="/Lab/Index" class="hidden h-9 items-center rounded-md border border-forest/30 bg-forest/5 px-3 text-xs font-medium text-forest transition hover:bg-forest hover:text-white sm:inline-flex dark:border-[#90b89d]/30 dark:text-[#90b89d]">
+                @(isRtl ? "آزمایشگاه" : "Lab") <span class="ms-1">↗</span>
+            </a>
+            <form method="get" action="/">
+                <input type="hidden" name="lang" value="@(isRtl ? "en" : "fa")" />
+                <button type="submit" class="grid h-9 min-w-9 place-items-center rounded-md border border-black/15 px-2 text-xs font-medium transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40" aria-label="@(isRtl ? "Switch to English" : "تغییر زبان به فارسی")">
+                    @(isRtl ? "EN" : "فا")
+                </button>
+            </form>
+            <button type="button" onclick="toggleTheme()" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40" aria-label="Toggle color theme">
+                <svg class="h-4 w-4 dark:hidden" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 12.4A6.5 6.5 0 0 1 7.6 4 6.5 6.5 0 1 0 16 12.4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
+                <svg class="hidden h-4 w-4 dark:block" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.25" stroke="currentColor" stroke-width="1.4" /><path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.34 4.34 5.4 5.4M14.6 14.6l1.06 1.06M15.66 4.34 14.6 5.4M5.4 14.6l-1.06 1.06" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+            </button>
+            <button id="nav-toggle" type="button" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 text-lg md:hidden dark:border-white/15" aria-label="Toggle navigation" aria-expanded="false">≡</button>
+        </div>
     </nav>
 
-    <ul id="nav-menu-mobile" class="hidden sm:hidden flex-col gap-4 px-6 pb-4 text-sm font-medium">
-        <li><a href="/#resume" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Resume</a></li>
-        <li><a href="/#projects" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Work</a></li>
-        <li><a href="/#contact" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">Contact</a></li>
-        <li><a asp-page="/Lab/Index" class="block hover:text-sky-500 dark:hover:text-sky-400 transition">&lt;/Lab&gt;</a></li>
-        <li><button onclick="toggleTheme()" class="hover:text-sky-500 dark:hover:text-sky-400 transition">Toggle theme</button></li>
-    </ul>
+    <nav id="nav-menu-mobile" class="hidden border-t border-black/10 px-5 py-3 md:hidden dark:border-white/10" aria-label="Mobile navigation">
+        <a href="/#work" class="block py-3 text-sm">@(isRtl ? "پروژه‌ها" : "Work")</a>
+        <a href="/#experience" class="block py-3 text-sm">@(isRtl ? "تجربه" : "Experience")</a>
+        <a href="/#skills" class="block py-3 text-sm">@(isRtl ? "مهارت‌ها" : "Skills")</a>
+        <a href="/#contact" class="block py-3 text-sm">@(isRtl ? "تماس" : "Contact")</a>
+        <a asp-page="/Lab/Index" class="my-2 inline-flex rounded-md border border-forest/30 px-3 py-2 text-xs font-medium text-forest dark:text-[#90b89d]">@(isRtl ? "باز کردن آزمایشگاه" : "Open Lab") ↗</a>
+    </nav>
 </header>
-<button onclick="toggleTheme()"
-        class="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-white dark:bg-slate-800 border border-l-0 border-slate-200 dark:border-slate-700 rounded-r-full pl-2 pr-3 py-3 shadow-md hover:pl-3 transition-all"
-        aria-label="Toggle theme">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-600 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-</button>
-<main class="pt-16">
-    @RenderBody()
-</main>
 
-<footer class="border-t border-slate-200 dark:border-slate-800 text-slate-500 text-sm text-center py-6">
-    &copy; 2026 Iliya Ahmadi
+<main>@RenderBody()</main>
+
+<footer class="border-t border-black/10 dark:border-white/10">
+    <div class="mx-auto flex w-full max-w-6xl flex-col justify-between gap-4 px-5 py-8 text-xs text-black/45 sm:flex-row sm:items-center sm:px-8 dark:text-white/45">
+        <span>&copy; 2026 Iliya Ahmadi</span>
+    </div>
 </footer>
 
 <script>
     function toggleTheme() {
-        document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
-    document.getElementById('nav-toggle').addEventListener('click', () => {
-        document.getElementById('nav-menu-mobile').classList.toggle('hidden');
-        document.getElementById('nav-menu-mobile').classList.toggle('flex');
-    });
-</script>
+    function toggleSkillsChick(button) {
+        const bubble = document.getElementById('skills-chick-bubble');
+        const isOpen = bubble.classList.toggle('hidden') === false;
+        button.setAttribute('aria-expanded', isOpen.toString());
+    }
 
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileNav = document.getElementById('nav-menu-mobile');
+    navToggle?.addEventListener('click', () => {
+        const willOpen = mobileNav.classList.contains('hidden');
+        mobileNav.classList.toggle('hidden');
+        navToggle.setAttribute('aria-expanded', willOpen.toString());
+        navToggle.textContent = willOpen ? '×' : '≡';
+    });
+    mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        mobileNav.classList.add('hidden');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.textContent = '≡';
+    }));
+</script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

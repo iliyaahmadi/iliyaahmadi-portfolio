@@ -1,47 +1,47 @@
 [
   {
     "title": "Mohajer",
-    "description": "An AI-assisted web application for exploring emigration decisions through structured guidance and personalized questions.",
+    "description": "اپلیکیشن وب مبتنی بر هوش مصنوعی برای بررسی تصمیم‌های مهاجرتی از طریق راهنمایی ساختاریافته و پرسش‌های شخصی‌سازی‌شده.",
     "techStack": ["ASP.NET Core", "C#", "DDD", "Clean Architecture", "CQRS", "MediatR", "PostgreSQL", "LLM Integration"],
     "gitHubUrl": null,
     "liveDemoUrl": null,
     "imageUrl": null,
-    "status": "In development"
+    "status": "در حال توسعه"
   },
   {
     "title": "OutRight",
-    "description": "A full-stack e-commerce application for gaming products, with catalog, authentication, shopping, and order flows.",
+    "description": "اپلیکیشن فول‌استک تجارت الکترونیک برای محصولات گیمینگ، شامل کاتالوگ، احراز هویت، خرید و مدیریت سفارش.",
     "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],
     "gitHubUrl": "https://github.com/iliyaahmadi/OutRight",
     "liveDemoUrl": null,
     "imageUrl": "/images/projects/outright.webp",
-    "status": "Available"
+    "status": "در دسترس"
   },
   {
     "title": "OutRight API",
-    "description": "The REST API behind OutRight, handling authentication, products, and order management.",
+    "description": "REST API پروژه OutRight برای احراز هویت، محصولات و مدیریت سفارش‌ها.",
     "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "bcrypt"],
     "gitHubUrl": "https://github.com/iliyaahmadi/OutRightApi",
     "liveDemoUrl": null,
     "imageUrl": null,
-    "status": "Available"
+    "status": "در دسترس"
   },
   {
     "title": "Rockify",
-    "description": "A music application for browsing tracks and managing playback, playlists, and account flows.",
+    "description": "اپلیکیشن موسیقی برای مرور و پخش آهنگ‌ها و مدیریت پلی‌لیست و حساب کاربری.",
     "techStack": ["React", "Material UI", "Axios", "React Router"],
     "gitHubUrl": "https://github.com/iliyaahmadi/Rockify",
     "liveDemoUrl": null,
     "imageUrl": "/images/projects/rockify.webp",
-    "status": "Available"
+    "status": "در دسترس"
   },
   {
     "title": "Rockify API",
-    "description": "The backend for Rockify, providing authentication, track and playlist data, and media uploads.",
+    "description": "بک‌اند Rockify برای احراز هویت، داده‌های آهنگ و پلی‌لیست و آپلود فایل‌های رسانه‌ای.",
     "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "Multer"],
     "gitHubUrl": "https://github.com/iliyaahmadi/RockifyApi",
     "liveDemoUrl": null,
     "imageUrl": null,
-    "status": "Available"
+    "status": "در دسترس"
   }
 ]

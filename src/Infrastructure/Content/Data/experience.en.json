@@ -1,26 +1,26 @@
-﻿[
+[
   {
     "company": "Part Software Group",
     "role": "Software Engineer",
     "team": "Digital Signature Team",
-    "dateRange": "2025 - Feb 2026",
+    "dateRange": "Aug 2025 - Feb 2026",
     "highlights": [
-      "Contributed to building a Certificate Authority product from scratch, implementing OCSP per RFC 6960 for 10,000+ certificates.",
-      "Developed admin panel pages (Razor Pages) for certificate lifecycle management across multiple CAs/RAs/OCSPs, including CRL distribution routing via YARP."
+      "Built a Certificate Authority platform in .NET 8 using Clean Architecture, covering issuance, revocation, and real-time status checking across CAs, RAs, and OCSP responders for 10,000+ certificates.",
+      "Delivered an ASP.NET MVC administration panel for certificates, CAs, RAs, and OCSP responders, with role-based access control and signed audit logging."
     ],
-    "logoUrl": "/images/logos/partsoftware.png",
+    "logoUrl": "/images/logos/partsoftware.webp",
     "groupKey": "part-software-group"
   },
   {
     "company": "Part Software Group",
     "role": "Software Engineer",
     "team": "Infrastructure Team",
-    "dateRange": "Aug 2024 - 2025",
+    "dateRange": "Aug 2024 - Aug 2025",
     "highlights": [
-      "Designed and maintained a service layer within the company's internal API gateway in Node.js, used by all 6 product teams.",
-      "Built version control and lifecycle management for 100+ internal API wrappers, reducing cross-team maintenance overhead by 50%."
+      "Designed and maintained a Node.js API gateway service layer serving as the single integration point for 6 internal product teams, including rate limiting, caching, and third-party error normalization.",
+      "Built lifecycle and version management for 100+ internal API wrappers, reducing cross-team maintenance overhead by 50%."
     ],
-    "logoUrl": "/images/logos/partsoftware.png",
+    "logoUrl": "/images/logos/partsoftware.webp",
     "groupKey": "part-software-group"
   },
   {
@@ -29,10 +29,11 @@
     "team": null,
     "dateRange": "Apr 2024 - Aug 2024",
     "highlights": [
-      "Migrated a legacy MVC backend to a layered Node.js/Express.js architecture, accelerating feature deployment by 40%.",
-      "Migrated MongoDB to domestic servers, achieving a 2.5x improvement in database performance."
+      "Migrated a legacy MVC backend to a layered Node.js and Express architecture, accelerating new feature deployment by 50%.",
+      "Moved MongoDB to domestic servers, improving database performance by 2x.",
+      "Built key services including a user wallet, payment service, and career assessment tools for CDP reports and resume building."
     ],
-    "logoUrl": "/images/logos/betatik.png",
+    "logoUrl": "/images/logos/betatik.webp",
     "groupKey": "betatik"
   },
   {
@@ -41,8 +42,8 @@
     "team": null,
     "dateRange": "Oct 2022 - Mar 2024",
     "highlights": [
-      "Built backend and frontend for an e-commerce platform using Node.js, PostgreSQL, and React.js.",
-      "Developed automation scripts, Telegram bots, and a .NET WinForms accounting application."
+      "Built the backend and frontend for an e-commerce platform using Node.js, PostgreSQL, and React.",
+      "Developed automation scripts, Telegram bots, and a .NET WinForms accounting application for a small business."
     ],
     "logoUrl": "",
     "groupKey": "freelance"
