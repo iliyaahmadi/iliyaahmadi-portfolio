@@ -1,0 +1,11 @@
+.git
+.idea
+.vs
+**/bin
+**/obj
+publish
+portfolio.zip
+TestResults
+tmp
+.env
+.env.*
