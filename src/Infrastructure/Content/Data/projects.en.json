@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Mohajer",
+    "description": "An AI-assisted web application for exploring emigration decisions through structured guidance and personalized questions.",
+    "techStack": ["ASP.NET Core", "C#", "DDD", "Clean Architecture", "CQRS", "MediatR", "PostgreSQL", "LLM Integration"],
+    "gitHubUrl": null,
+    "liveDemoUrl": null,
+    "imageUrl": null,
+    "status": "In development"
+  },
+  {
+    "title": "OutRight",
+    "description": "A full-stack e-commerce application for gaming products, with catalog, authentication, shopping, and order flows.",
+    "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/OutRight",
+    "liveDemoUrl": null,
+    "imageUrl": "/images/projects/outright.webp",
+    "status": "Available"
+  },
+  {
+    "title": "OutRight API",
+    "description": "The REST API behind OutRight, handling authentication, products, and order management.",
+    "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "bcrypt"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/OutRightApi",
+    "liveDemoUrl": null,
+    "imageUrl": null,
+    "status": "Available"
+  },
+  {
+    "title": "Rockify",
+    "description": "A music application for browsing tracks and managing playback, playlists, and account flows.",
+    "techStack": ["React", "Material UI", "Axios", "React Router"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/Rockify",
+    "liveDemoUrl": null,
+    "imageUrl": "/images/projects/rockify.webp",
+    "status": "Available"
+  },
+  {
+    "title": "Rockify API",
+    "description": "The backend for Rockify, providing authentication, track and playlist data, and media uploads.",
+    "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "Multer"],
+    "gitHubUrl": "https://github.com/iliyaahmadi/RockifyApi",
+    "liveDemoUrl": null,
+    "imageUrl": null,
+    "status": "Available"
+  }
+]
