@@ -15,7 +15,12 @@ public static class DependencyInjection
         services.AddScoped<IProjectSource, JsonProjectSource>();
         services.AddScoped<IHomeContentSource, JsonHomeContentSource>();
         services.AddScoped<IExperienceSource, JsonExperienceSource>();
-        services.AddScoped<IEmailSender, SmtpEmailSender>();
+        services.AddSingleton(new HttpClient
+        {
+            BaseAddress = new Uri("https://api.resend.com/"),
+            Timeout = TimeSpan.FromSeconds(15)
+        });
+        services.AddScoped<IEmailSender, ResendEmailSender>();
         return services;
     }
 }

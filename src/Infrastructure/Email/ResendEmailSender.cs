@@ -1,31 +1,28 @@
 using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using Application.Contact;
 using Domain.Entities;
-using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
-using MimeKit;
 
 namespace Infrastructure.Email;
 
-public class SmtpEmailSender : IEmailSender
+public sealed class ResendEmailSender : IEmailSender
 {
-    private readonly IConfiguration _config;
+    private readonly HttpClient _httpClient;
+    private readonly IConfiguration _configuration;
 
-    public SmtpEmailSender(IConfiguration config) => _config = config;
+    public ResendEmailSender(HttpClient httpClient, IConfiguration configuration)
+    {
+        _httpClient = httpClient;
+        _configuration = configuration;
+    }
 
     public async Task SendAsync(ContactMessage message)
     {
-        var fromAddress = GetRequiredSetting("Smtp:From");
-        var toAddress = GetRequiredSetting("Smtp:To");
-        var host = GetRequiredSetting("Smtp:Host");
-        var user = GetRequiredSetting("Smtp:User");
-        var password = GetRequiredSetting("Smtp:Password");
-
-        var email = new MimeMessage();
-        email.From.Add(new MailboxAddress("Iliya Ahmadi · Portfolio", fromAddress));
-        email.To.Add(MailboxAddress.Parse(toAddress));
-        email.ReplyTo.Add(new MailboxAddress(message.Name, message.Email));
-        email.Subject = $"New portfolio inquiry from {message.Name}";
+        var apiKey = GetRequiredSetting("Resend:ApiKey");
+        var fromAddress = GetRequiredSetting("Resend:From");
+        var toAddress = GetRequiredSetting("Resend:To");
 
         var safeName = WebUtility.HtmlEncode(message.Name);
         var safeEmail = WebUtility.HtmlEncode(message.Email);
@@ -34,10 +31,14 @@ public class SmtpEmailSender : IEmailSender
             .Replace("\r\n", "<br>")
             .Replace("\n", "<br>");
 
-        var body = new BodyBuilder
+        var payload = new
         {
-            TextBody = $"New message from your portfolio\n\nName: {message.Name}\nEmail: {message.Email}\n\nMessage:\n{message.Message}\n\nReply to this email to respond directly to {message.Name}.",
-            HtmlBody = $$"""
+            from = fromAddress,
+            to = new[] { toAddress },
+            reply_to = message.Email,
+            subject = $"New portfolio inquiry from {message.Name}",
+            text = $"New message from your portfolio\n\nName: {message.Name}\nEmail: {message.Email}\n\nMessage:\n{message.Message}\n\nReply to this email to respond directly to {message.Name}.",
+            html = $$"""
                 <!doctype html>
                 <html lang="en">
                 <body style="margin:0;background:#f1f3ee;color:#1c211d;font-family:Arial,sans-serif;">
@@ -56,21 +57,32 @@ public class SmtpEmailSender : IEmailSender
                                 <a href="mailto:{{safeEmailUri}}" style="display:inline-block;margin-top:24px;padding:12px 18px;border-radius:8px;background:#315f3e;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;">Reply to {{safeName}}</a>
                             </div>
                         </div>
-                        <p style="margin:16px 0 0;text-align:center;color:#7e8980;font-size:12px;">Sent through iliyaahmadi.com</p>
+                        <p style="margin:16px 0 0;text-align:center;color:#7e8980;font-size:12px;">Sent through Iliya Ahmadi's portfolio</p>
                     </div>
                 </body>
                 </html>
                 """
         };
-        email.Body = body.ToMessageBody();
 
-        using var smtp = new SmtpClient();
-        await smtp.ConnectAsync(host, int.Parse(GetRequiredSetting("Smtp:Port")), MailKit.Security.SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(user, password);
-        await smtp.SendAsync(email);
-        await smtp.DisconnectAsync(true);
+        using var request = new HttpRequestMessage(HttpMethod.Post, "emails")
+        {
+            Content = JsonContent.Create(payload)
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+
+        using var response = await _httpClient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            return;
+        }
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+        throw new InvalidOperationException(
+            $"Resend rejected the contact email with status {(int)response.StatusCode}: {responseBody}");
     }
 
     private string GetRequiredSetting(string key) =>
-        _config[key] ?? throw new InvalidOperationException($"Missing required configuration setting '{key}'.");
+        !string.IsNullOrWhiteSpace(_configuration[key])
+            ? _configuration[key]!
+            : throw new InvalidOperationException($"Missing required configuration setting '{key}'.");
 }
