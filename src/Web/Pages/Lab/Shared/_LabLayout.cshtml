@@ -1,0 +1,45 @@
+@{
+    var culture = Context.Request.Cookies["culture"] ?? "en";
+    var isRtl = culture == "fa";
+}
+<!DOCTYPE html>
+<html lang="@culture" dir="@(isRtl ? "rtl" : "ltr")">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@(isRtl ? "آزمایشگاه شخصی ایلیا احمدی برای تجربه ابزارها و ایده‌های مختلف." : "Iliya Ahmadi's personal space for experimenting with tools and ideas.")" />
+    <title>@ViewData["Title"] - Iliya Ahmadi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['IBM Plex Sans', 'Vazirmatn', 'sans-serif'], mono: ['IBM Plex Mono', 'monospace'] } } } };
+    </script>
+    <style>
+        body { font-family: 'IBM Plex Sans', 'Vazirmatn', sans-serif; }
+        [dir="rtl"] body { font-family: 'Vazirmatn', 'IBM Plex Sans', sans-serif; }
+        ::selection { color: #0d100d; background: #86d39c; }
+        .lab-noise {
+            background-image: radial-gradient(rgba(134, 211, 156, .12) 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+    </style>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+</head>
+<body class="min-h-screen bg-[#0d100d] text-[#e7ebe5] antialiased">
+<header class="border-b border-white/10 bg-[#0d100d]/95 backdrop-blur">
+    <nav class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
+        <div class="flex items-center gap-3">
+            <span class="h-2 w-2 rounded-full bg-[#86d39c] shadow-[0_0_0_4px_rgba(134,211,156,.1)]"></span>
+            <a asp-page="/Lab/Index" class="font-mono text-sm"><span class="text-white/40">iliya/</span>lab</a>
+        </div>
+        <a asp-page="/Index" class="rounded-md border border-white/15 px-3 py-2 font-mono text-xs text-white/65 transition hover:border-white/35 hover:text-white">@(isRtl ? "بازگشت به سایت" : "Back to portfolio")</a>
+    </nav>
+</header>
+<main>@RenderBody()</main>
+<footer class="border-t border-white/10">
+    <div class="mx-auto flex w-full max-w-6xl justify-between px-5 py-7 font-mono text-[10px] text-white/35 sm:px-8"><span>lab.local</span><span>@(isRtl ? "فضایی برای تجربه و یادگیری" : "a space for experiments and learning")</span></div>
+</footer>
+</body>
+</html>

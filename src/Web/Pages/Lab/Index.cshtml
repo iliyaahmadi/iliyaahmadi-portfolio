@@ -1,0 +1,23 @@
+@page
+@{
+    var culture = Request.Cookies["culture"] ?? "en";
+    var isRtl = culture == "fa";
+    ViewData["Title"] = isRtl ? "آزمایشگاه" : "Lab";
+    Layout = "/Pages/Lab/Shared/_LabLayout.cshtml";
+}
+
+<section class="lab-noise grid min-h-[calc(100vh-129px)] place-items-center px-5 py-20 sm:px-8">
+    <div class="mx-auto w-full max-w-2xl text-center">
+        <span class="inline-flex rounded-full border border-[#86d39c]/25 bg-[#86d39c]/5 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#86d39c]">
+            @(isRtl ? "هنوز چیزی منتشر نشده" : "Nothing published yet")
+        </span>
+        <h1 class="mt-7 text-4xl font-semibold tracking-[-0.035em] sm:text-6xl">
+            @(isRtl ? "آزمایشگاه فعلاً خالی است." : "The lab is empty for now.")
+        </h1>
+        <p class="mx-auto mt-6 max-w-xl text-base leading-8 text-white/55">
+            @(isRtl
+                ? "اینجا ابزارها، فناوری‌ها و ایده‌های مختلف را آزمایش می‌کنم. پروژه‌های کوچک به‌مرور به این بخش اضافه می‌شوند."
+                : "This is where I experiment with different tools, technologies, and ideas. Small projects will appear here over time.")
+        </p>
+    </div>
+</section>
