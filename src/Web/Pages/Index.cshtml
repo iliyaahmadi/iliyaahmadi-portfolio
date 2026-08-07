@@ -68,26 +68,56 @@
                 var apiProject = Model.Projects.FirstOrDefault(candidate =>
                     candidate.Title.Equals($"{project.Title} API", StringComparison.OrdinalIgnoreCase));
                 var isInDevelopment = project.Status?.Contains("development", StringComparison.OrdinalIgnoreCase) == true || project.Status?.Contains("توسعه") == true;
+                var projectImages = project.ImageUrls.Count > 0
+                    ? project.ImageUrls
+                    : string.IsNullOrWhiteSpace(project.ImageUrl) ? [] : new List<string> { project.ImageUrl };
 
                 <article class="overflow-hidden rounded-xl border border-black/10 bg-white/55 dark:border-white/10 dark:bg-white/[.025]">
                     <div class="grid lg:grid-cols-[1.05fr_.95fr]">
                         <div class="border-b border-black/10 p-4 dark:border-white/10 lg:border-b-0 lg:border-e">
-                            @if (!string.IsNullOrWhiteSpace(project.ImageUrl))
+                            @if (projectImages.Count > 0)
                             {
-                                <button type="button" class="group relative block aspect-[16/10] h-full w-full overflow-hidden rounded-lg border border-black/10 bg-[#101012] text-start dark:border-white/10" aria-label="@(isRtl ? $"نمایش تصویر پروژه {project.Title}" : $"Reveal screenshot of {project.Title}")">
-                                    <img src="@project.ImageUrl" alt="Screenshot of @project.Title" class="h-full w-full scale-[1.025] object-contain object-center blur-[5px] brightness-[.62] transition duration-500 ease-out group-hover:scale-100 group-hover:blur-0 group-hover:brightness-100 group-focus:scale-100 group-focus:blur-0 group-focus:brightness-100" />
-                                    <span class="pointer-events-none absolute inset-0 grid place-items-center transition duration-300 group-hover:opacity-0 group-focus:opacity-0">
-                                        <span class="rounded-full border border-white/20 bg-black/45 px-4 py-2 text-xs font-medium text-white backdrop-blur-sm">@(isRtl ? "نمایش تصویر" : "View screenshot")</span>
-                                    </span>
-                                </button>
+                                <div data-project-carousel data-slide-index="0" tabindex="0" class="project-gallery relative block aspect-[16/10] h-full w-full overflow-hidden rounded-lg border border-black/10 bg-[#101012] text-start outline-none focus-visible:ring-2 focus-visible:ring-forest/60 dark:border-white/10 dark:focus-visible:ring-[#90b89d]/60" role="region" aria-roledescription="carousel" aria-label="@(isRtl ? $"گالری خودکار تصاویر پروژه {project.Title}" : $"Automatically rotating screenshot gallery for {project.Title}")">
+                                    <div data-carousel-track dir="ltr" class="flex h-full snap-x snap-mandatory overflow-hidden">
+                                        @for (var imageIndex = 0; imageIndex < projectImages.Count; imageIndex++)
+                                        {
+                                            <img src="@projectImages[imageIndex]"
+                                                 alt="@(isRtl ? $"تصویر {imageIndex + 1} از پروژه {project.Title}" : $"{project.Title} screenshot {imageIndex + 1} of {projectImages.Count}")"
+                                                 loading="lazy"
+                                                 decoding="async"
+                                                 draggable="false"
+                                                 class="project-gallery-image h-full w-full flex-none snap-center object-contain object-center" />
+                                        }
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                <div class="flex aspect-[16/10] items-end rounded-lg border border-black/10 bg-[#e8eee6] p-8 dark:border-white/10 dark:bg-[#222920]">
-                                    <div class="max-w-sm">
-                                        <span class="inline-flex rounded-full bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-forest shadow-sm dark:bg-white/10 dark:text-[#a9cdb2]">@(isRtl ? "در حال ساخت" : "Currently building")</span>
-                                        <p class="mt-5 text-4xl font-semibold tracking-tight">@project.Title</p>
-                                        <p class="mt-3 text-sm leading-6 text-black/50 dark:text-white/50">@(isRtl ? "راهنمای تصمیم‌گیری ساختاریافته برای مسیر مهاجرت." : "Structured decision support for navigating relocation choices.")</p>
+                                <div class="relative aspect-[16/10] overflow-hidden rounded-lg border border-black/10 bg-[#dfe7dd] dark:border-white/10 dark:bg-[#1b211c]">
+                                    <div aria-hidden="true" class="absolute -inset-4 scale-105 opacity-55 blur-[2px] dark:opacity-45">
+                                        <div class="absolute inset-0" style="background-image:linear-gradient(rgba(63,107,79,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(63,107,79,.13) 1px,transparent 1px);background-size:26px 26px"></div>
+                                        <div class="absolute inset-x-[13%] inset-y-[15%] overflow-hidden rounded-xl border border-forest/25 bg-white/45 shadow-xl dark:border-white/15 dark:bg-white/[.045]">
+                                            <div class="flex h-8 items-center gap-1.5 border-b border-forest/15 px-3 dark:border-white/10">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-forest/25 dark:bg-white/20"></span>
+                                                <span class="h-1.5 w-1.5 rounded-full bg-forest/25 dark:bg-white/20"></span>
+                                                <span class="h-1.5 w-1.5 rounded-full bg-forest/25 dark:bg-white/20"></span>
+                                            </div>
+                                            <div class="grid h-[calc(100%_-_2rem)] grid-cols-[.36fr_1fr] gap-4 p-5">
+                                                <div class="rounded-md bg-forest/10 dark:bg-white/[.05]"></div>
+                                                <div class="space-y-3 pt-1">
+                                                    <div class="h-3 w-2/3 rounded bg-forest/15 dark:bg-white/[.07]"></div>
+                                                    <div class="h-2 w-full rounded bg-forest/10 dark:bg-white/[.05]"></div>
+                                                    <div class="h-2 w-4/5 rounded bg-forest/10 dark:bg-white/[.05]"></div>
+                                                    <div class="mt-5 grid grid-cols-2 gap-3">
+                                                        <div class="h-14 rounded-md border border-forest/10 dark:border-white/[.06]"></div>
+                                                        <div class="h-14 rounded-md border border-forest/10 dark:border-white/[.06]"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="absolute inset-0 grid place-items-center bg-white/10 backdrop-blur-[1px] dark:bg-black/10">
+                                        <span class="rounded-full border border-forest/20 bg-[#eef2eb]/85 px-4 py-2 text-xs font-semibold tracking-wide text-forest shadow-sm backdrop-blur dark:border-white/15 dark:bg-[#171b17]/85 dark:text-[#a9cdb2]">@project.Status</span>
                                     </div>
                                 </div>
                             }
@@ -97,7 +127,7 @@
                             <div>
                                 <div class="flex flex-wrap items-center justify-between gap-3">
                                     <h3 class="text-3xl font-semibold tracking-tight">@project.Title</h3>
-                                    @if (!string.IsNullOrWhiteSpace(project.Status))
+                                    @if (!string.IsNullOrWhiteSpace(project.Status) && (!isInDevelopment || projectImages.Count > 0))
                                     {
                                         <span class="rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] @(isInDevelopment ? "border-amber-500/25 bg-amber-500/5 text-amber-700 dark:text-amber-300" : "border-forest/25 bg-forest/5 text-forest dark:text-[#90b89d]")">@project.Status</span>
                                     }
@@ -153,6 +183,92 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        const projectGalleries = [...document.querySelectorAll('[data-project-carousel]')];
+        const reduceGalleryMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function stopProjectGallery(gallery) {
+            if (!gallery.galleryTimer) return;
+            window.clearInterval(gallery.galleryTimer);
+            gallery.galleryTimer = 0;
+        }
+
+        function advanceProjectGallery(gallery) {
+            const track = gallery.querySelector('[data-carousel-track]');
+            const slides = track ? [...track.children] : [];
+            if (!track || slides.length < 2) return;
+
+            const nextIndex = (Number(gallery.dataset.slideIndex || 0) + 1) % slides.length;
+            gallery.dataset.slideIndex = nextIndex.toString();
+            track.scrollTo({
+                left: nextIndex * track.clientWidth,
+                behavior: 'smooth'
+            });
+        }
+
+        function startProjectGallery(gallery) {
+            const track = gallery.querySelector('[data-carousel-track]');
+            if (!track || track.children.length < 2 || gallery.galleryTimer || gallery.matches(':hover') || gallery.contains(document.activeElement) || !gallery.classList.contains('is-visible') || reduceGalleryMotion.matches || document.hidden) return;
+            gallery.galleryTimer = window.setInterval(() => advanceProjectGallery(gallery), 2500);
+        }
+
+        function syncProjectGalleries() {
+            projectGalleries.forEach(gallery => {
+                if (gallery.classList.contains('is-visible')) startProjectGallery(gallery);
+                else stopProjectGallery(gallery);
+            });
+        }
+
+        function updateActiveProjectGallery() {
+            const viewportCenter = window.innerHeight / 2;
+            let activeGallery = null;
+            let closestDistance = Number.POSITIVE_INFINITY;
+
+            projectGalleries.forEach(gallery => {
+                const bounds = gallery.getBoundingClientRect();
+                const visibleHeight = Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0);
+                if (visibleHeight <= 0) return;
+
+                const galleryCenter = bounds.top + bounds.height / 2;
+                const distance = Math.abs(galleryCenter - viewportCenter);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    activeGallery = gallery;
+                }
+            });
+
+            projectGalleries.forEach(gallery => gallery.classList.toggle('is-visible', gallery === activeGallery));
+            syncProjectGalleries();
+        }
+
+        let galleryScrollFrame = 0;
+        function scheduleGalleryVisibilityUpdate() {
+            if (galleryScrollFrame) return;
+            galleryScrollFrame = window.requestAnimationFrame(() => {
+                galleryScrollFrame = 0;
+                updateActiveProjectGallery();
+            });
+        }
+
+        projectGalleries.forEach(carousel => {
+            carousel.addEventListener('mouseenter', () => stopProjectGallery(carousel));
+            carousel.addEventListener('mouseleave', () => startProjectGallery(carousel));
+            carousel.addEventListener('focusin', () => stopProjectGallery(carousel));
+            carousel.addEventListener('focusout', () => startProjectGallery(carousel));
+        });
+
+        window.addEventListener('scroll', scheduleGalleryVisibilityUpdate, { passive: true });
+        window.addEventListener('resize', scheduleGalleryVisibilityUpdate);
+        reduceGalleryMotion.addEventListener('change', syncProjectGalleries);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) projectGalleries.forEach(stopProjectGallery);
+            else syncProjectGalleries();
+        });
+        updateActiveProjectGallery();
+    </script>
+}
 
 <section id="experience" class="relative scroll-mt-24 border-t border-black/10 dark:border-white/10">
     <div dir="ltr" aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 mx-auto flex w-full max-w-6xl -translate-y-[88%] px-5 sm:px-8 lg:max-w-none lg:px-6 @(isRtl ? "justify-start" : "justify-end")">
@@ -354,6 +470,14 @@
             else
             {
                 <form method="post" asp-page="/Index" asp-fragment="contact" class="space-y-5" novalidate>
+                    @if (Model.MessageRateLimited)
+                    {
+                        <div role="alert" class="rounded-lg border border-[#b7793b]/25 bg-[#fff4e7]/80 px-4 py-3 text-sm leading-6 text-[#754515] dark:border-[#e1a865]/20 dark:bg-[#e1a865]/10 dark:text-[#efc28d]">
+                            @(isRtl
+                                ? $"تعداد پیام‌ها از این اتصال بیش از حد مجاز است. لطفاً حدود {Model.RetryAfterMinutes} دقیقه دیگر دوباره تلاش کنید یا مستقیماً ایمیل بزنید."
+                                : $"Too many messages have been sent from this connection. Please try again in about {Model.RetryAfterMinutes} minutes or email me directly.")
+                        </div>
+                    }
                     @if (Model.MessageFailed)
                     {
                         <div role="alert" class="rounded-lg border border-[#b7793b]/25 bg-[#fff4e7]/80 px-4 py-3 text-sm leading-6 text-[#754515] dark:border-[#e1a865]/20 dark:bg-[#e1a865]/10 dark:text-[#efc28d]">

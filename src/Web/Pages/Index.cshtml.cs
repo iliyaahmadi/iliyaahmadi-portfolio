@@ -7,6 +7,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Services;
 
 namespace Web.Pages;
 
@@ -14,6 +15,7 @@ public class IndexModel : PageModel
 {
     private readonly IMediator _mediator;
     private readonly ILogger<IndexModel> _logger;
+    private readonly ContactSubmissionRateLimiter _contactRateLimiter;
 
     public HomeContent Content { get; set; } = null!;
     public List<ExperienceEntry> Experience { get; set; } = [];
@@ -25,11 +27,17 @@ public class IndexModel : PageModel
 
     public bool MessageSent { get; set; }
     public bool MessageFailed { get; set; }
+    public bool MessageRateLimited { get; set; }
+    public int RetryAfterMinutes { get; set; }
 
-    public IndexModel(IMediator mediator, ILogger<IndexModel> logger)
+    public IndexModel(
+        IMediator mediator,
+        ILogger<IndexModel> logger,
+        ContactSubmissionRateLimiter contactRateLimiter)
     {
         _mediator = mediator;
         _logger = logger;
+        _contactRateLimiter = contactRateLimiter;
     }
 
     public async Task OnGetAsync(string? lang)
@@ -55,6 +63,18 @@ public class IndexModel : PageModel
 
         if (!ModelState.IsValid)
         {
+            await LoadContentAsync();
+            return Page();
+        }
+
+        var clientAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var rateLimit = await _contactRateLimiter.TryAcquireAsync(clientAddress, HttpContext.RequestAborted);
+        if (!rateLimit.IsAllowed)
+        {
+            MessageRateLimited = true;
+            RetryAfterMinutes = Math.Max(1, (int)Math.Ceiling(rateLimit.RetryAfter.TotalMinutes));
+            Response.StatusCode = StatusCodes.Status429TooManyRequests;
+            Response.Headers.RetryAfter = Math.Max(1, (int)Math.Ceiling(rateLimit.RetryAfter.TotalSeconds)).ToString();
             await LoadContentAsync();
             return Page();
         }
