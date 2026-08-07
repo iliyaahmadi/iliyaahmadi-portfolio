@@ -22,6 +22,9 @@ COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://0.0.0.0:10000
 ENV ASPNETCORE_ENVIRONMENT=Production
+# Published containers are immutable, so watching appsettings files wastes
+# scarce inotify handles and can prevent the app from starting on Render.
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
 
 EXPOSE 10000
 
