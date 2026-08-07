@@ -14,7 +14,12 @@
     "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],
     "gitHubUrl": "https://github.com/iliyaahmadi/OutRight",
     "liveDemoUrl": null,
-    "imageUrl": "/images/projects/outright.webp",
+    "imageUrl": "/images/projects/outright-home.webp",
+    "imageUrls": [
+      "/images/projects/outright-home.webp",
+      "/images/projects/outright-account.webp",
+      "/images/projects/outright-signup.webp"
+    ],
     "status": "Available"
   },
   {

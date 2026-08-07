@@ -8,5 +8,6 @@ public class Project
     public string? GitHubUrl { get; init; }
     public string? LiveDemoUrl { get; init; }
     public string? ImageUrl { get; init; }
+    public List<string> ImageUrls { get; init; } = [];
     public string? Status { get; init; }  
 }

@@ -50,6 +50,15 @@
         [dir="rtl"] body { font-family: 'Vazirmatn', 'IBM Plex Sans', sans-serif; }
         ::selection { color: #fff; background: #3f6b4f; }
         .pixel-art { image-rendering: pixelated; }
+        .project-gallery-image {
+            filter: blur(5px) brightness(.62);
+            transform: scale(1.025);
+            transition: filter .5s ease, transform .5s ease;
+        }
+        .project-gallery.is-visible .project-gallery-image {
+            filter: blur(0) brightness(1);
+            transform: scale(1);
+        }
         .portrait-flip { perspective: 1000px; }
         .portrait-flip-inner {
             position: relative;
@@ -70,6 +79,7 @@
         @@media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .portrait-flip-inner { transition: none; }
+            .project-gallery-image { transition: none; }
         }
     </style>
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
