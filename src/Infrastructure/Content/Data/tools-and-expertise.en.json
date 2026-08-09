@@ -1,0 +1,48 @@
+{
+  "title": "Tools and expertise",
+  "groups": [
+    {
+      "title": "Backend and frameworks",
+      "items": [
+        { "name": ".NET / C#", "logoUrl": "/images/skills/dotnet.svg" },
+        { "name": "ASP.NET Core", "logoUrl": "/images/skills/dotnet.svg" },
+        { "name": "EF Core", "logoUrl": "/images/skills/dotnet.svg" },
+        { "name": "Dapper", "logoUrl": "/images/skills/dotnet.svg" },
+        { "name": "Node.js", "logoUrl": "/images/skills/nodejs.svg" },
+        { "name": "Express", "logoUrl": "/images/skills/express.svg" }
+      ]
+    },
+    {
+      "title": "Data and APIs",
+      "items": [
+        { "name": "PostgreSQL", "logoUrl": "/images/skills/postgresql.svg" },
+        { "name": "MongoDB", "logoUrl": "/images/skills/mongodb.svg" },
+        { "name": "Redis", "logoUrl": "/images/skills/redis.svg" },
+        { "name": "REST APIs", "logoUrl": "/images/skills/openapi.svg" },
+        { "name": "Swagger / OpenAPI", "logoUrl": "/images/skills/swagger.svg" }
+      ]
+    },
+    {
+      "title": "Infrastructure and delivery",
+      "items": [
+        { "name": "Docker", "logoUrl": "/images/skills/docker.svg" },
+        { "name": "Linux", "logoUrl": "/images/skills/linux.svg" },
+        { "name": "Azure", "logoUrl": "/images/skills/azure.svg" },
+        { "name": "GitLab CI", "logoUrl": "/images/skills/gitlab.svg" },
+        { "name": "RabbitMQ", "logoUrl": "/images/skills/rabbitmq.svg" },
+        { "name": "Git", "logoUrl": "/images/skills/git.svg" },
+        { "name": "SigNoz", "logoUrl": "/images/skills/signoz.webp" },
+        { "name": "Jira / Agile", "logoUrl": "/images/skills/jira.svg" }
+      ]
+    },
+    {
+      "title": "Testing",
+      "items": [
+        { "name": "xUnit", "logoUrl": "/images/skills/dotnet.svg" },
+        { "name": "Jest", "logoUrl": "/images/skills/jest.svg" },
+        { "name": "Playwright", "logoUrl": "/images/skills/playwright.svg" },
+        { "name": "k6", "logoUrl": "/images/skills/k6.svg" }
+      ]
+    }
+  ]
+}

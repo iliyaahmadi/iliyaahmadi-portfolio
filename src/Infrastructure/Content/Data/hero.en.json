@@ -1,0 +1,44 @@
+{
+  "pageTitle": "Software Engineer",
+  "metaDescription": "Iliya Ahmadi - backend-focused software engineer working with Node.js and .NET.",
+  "siteName": "Iliya Ahmadi",
+  "navigation": {
+    "work": "Work",
+    "experience": "Experience",
+    "skills": "Skills",
+    "contact": "Contact",
+    "lab": "Lab",
+    "openLab": "Open Lab"
+  },
+  "greeting": "Hello, I'm",
+  "name": "Iliya Ahmadi",
+  "title": "Software Engineer",
+  "bio": "Backend-focused software engineer working in Node.js and .NET, with experience building end to end when needed. I design APIs and services, and I care about writing code that's reliable, maintainable, and no more complex than it needs to be.",
+  "details": [
+    { "text": "Istanbul, Turkey", "icon": "location" },
+    { "text": "Remote and open to relocation", "icon": "status" }
+  ],
+  "actions": [
+    {
+      "key": "work",
+      "text": "View my work",
+      "url": "#work",
+      "style": "primary",
+      "openInNewTab": false
+    },
+    {
+      "key": "resume",
+      "text": "View resume",
+      "url": "https://drive.google.com/file/d/1hj6eQTa1CEkTYAkX9p-zkouZU94Ebm07/view?usp=drive_link",
+      "style": "secondary",
+      "openInNewTab": true
+    },
+    {
+      "key": "contact",
+      "text": "Contact me",
+      "url": "#contact",
+      "style": "link",
+      "openInNewTab": false
+    }
+  ]
+}

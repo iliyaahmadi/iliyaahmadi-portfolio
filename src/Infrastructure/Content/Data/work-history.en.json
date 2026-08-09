@@ -1,4 +1,24 @@
-[
+{
+  "title": "Work history",
+  "infoCards": [
+    {
+      "label": "Education",
+      "heading": "Azad University of Mashhad",
+      "items": [
+        { "title": "A.S in Computer Engineering", "detail": "2022 - 2024 · Graduated" },
+        { "title": "B.CS in Computer Engineering", "detail": "2024 - 2026 · Final Semester" }
+      ]
+    },
+    {
+      "label": "Languages",
+      "items": [
+        { "title": "Persian", "detail": "Native" },
+        { "title": "English", "detail": "Proficient" },
+        { "title": "German", "detail": "B2" }
+      ]
+    }
+  ],
+  "entries": [
   {
     "company": "Part Software Group",
     "role": "Software Engineer",
@@ -48,4 +68,5 @@
     "logoUrl": "",
     "groupKey": "freelance"
   }
-]
+  ]
+}

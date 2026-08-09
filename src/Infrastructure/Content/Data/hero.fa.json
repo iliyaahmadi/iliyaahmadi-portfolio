@@ -1,0 +1,44 @@
+{
+  "pageTitle": "مهندس نرم‌افزار",
+  "metaDescription": "ایلیا احمدی، مهندس نرم‌افزار با تمرکز بر توسعه بک‌اند با Node.js و .NET.",
+  "siteName": "Iliya Ahmadi",
+  "navigation": {
+    "work": "پروژه‌ها",
+    "experience": "تجربه",
+    "skills": "مهارت‌ها",
+    "contact": "تماس",
+    "lab": "آزمایشگاه",
+    "openLab": "باز کردن آزمایشگاه"
+  },
+  "greeting": "سلام، من",
+  "name": "ایلیا احمدی",
+  "title": "مهندس نرم‌افزار",
+  "bio": "مهندس نرم‌افزار با تمرکز بر توسعه بک‌اند با Node.js و .NET و تجربه توسعه End-to-End در پروژه‌های مختلف. در طراحی و توسعه APIها و سرویس‌ها تجربه دارم و برای من مهم است کدی بنویسم که قابل اعتماد، قابل نگهداری و تا جای ممکن ساده و بدون پیچیدگی غیرضروری باشد.",
+  "details": [
+    { "text": "استانبول، ترکیه", "icon": "location" },
+    { "text": "آماده همکاری ریموت و جابه‌جایی", "icon": "status" }
+  ],
+  "actions": [
+    {
+      "key": "work",
+      "text": "مشاهده پروژه‌ها",
+      "url": "#work",
+      "style": "primary",
+      "openInNewTab": false
+    },
+    {
+      "key": "resume",
+      "text": "مشاهده رزومه",
+      "url": "https://drive.google.com/file/d/1hj6eQTa1CEkTYAkX9p-zkouZU94Ebm07/view?usp=drive_link",
+      "style": "secondary",
+      "openInNewTab": true
+    },
+    {
+      "key": "contact",
+      "text": "تماس با من",
+      "url": "#contact",
+      "style": "link",
+      "openInNewTab": false
+    }
+  ]
+}

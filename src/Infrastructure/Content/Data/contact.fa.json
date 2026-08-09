@@ -1,0 +1,18 @@
+{
+  "availability": "آماده همکاری",
+  "heading": "بیایید در ارتباط باشیم",
+  "description": "برای فرصت‌های شغلی دورکاری، موقعیت‌های همراه با امکان جابه‌جایی یا همکاری در پروژه‌های بک‌اند، خوشحال می‌شوم مستقیماً با من در ارتباط باشید.",
+  "emailLabel": "ایمیل",
+  "email": "iliyahmdi.info@gmail.com",
+  "links": [
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/iliyaahmadi" },
+    { "label": "GitHub", "url": "https://github.com/iliyaahmadi" }
+  ],
+  "successMessage": "ممنون - پیام شما ارسال شد. به‌زودی پاسخ می‌دهم.",
+  "failureMessage": "ارسال پیام انجام نشد. لطفاً دوباره تلاش کنید یا مستقیماً ایمیل بزنید.",
+  "rateLimitMessage": "تعداد پیام‌ها از این اتصال بیش از حد مجاز است. لطفاً حدود {minutes} دقیقه دیگر دوباره تلاش کنید یا مستقیماً ایمیل بزنید.",
+  "nameLabel": "نام",
+  "emailFieldLabel": "ایمیل",
+  "messageLabel": "پیام",
+  "submitText": "ارسال پیام"
+}
