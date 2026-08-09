@@ -1,0 +1,18 @@
+{
+  "availability": "Open to opportunities",
+  "heading": "Let's talk",
+  "description": "For remote roles, relocation opportunities, or a backend project, send me a message directly.",
+  "emailLabel": "Email",
+  "email": "iliyahmdi.info@gmail.com",
+  "links": [
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/iliyaahmadi" },
+    { "label": "GitHub", "url": "https://github.com/iliyaahmadi" }
+  ],
+  "successMessage": "Thanks - your message has been sent. I'll get back to you soon.",
+  "failureMessage": "The message could not be sent. Please try again or email me directly.",
+  "rateLimitMessage": "Too many messages have been sent from this connection. Please try again in about {minutes} minutes or email me directly.",
+  "nameLabel": "Name",
+  "emailFieldLabel": "Email",
+  "messageLabel": "Message",
+  "submitText": "Send message"
+}

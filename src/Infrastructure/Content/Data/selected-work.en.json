@@ -1,4 +1,9 @@
-[
+{
+  "title": "Selected work",
+  "liveDemo": "Live demo",
+  "companionService": "Companion service",
+  "apiSource": "API source",
+  "projects": [
   {
     "title": "Mohajer",
     "description": "An AI-assisted web application for exploring emigration decisions through structured guidance and personalized questions.",
@@ -49,4 +54,5 @@
     "imageUrl": null,
     "status": "Available"
   }
-]
+  ]
+}

@@ -1,8 +1,8 @@
 @page
 @model Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Software Engineer";
     var isRtl = (ViewData["Culture"]?.ToString() ?? "en") == "fa";
+    var resumeAction = Model.Content.Hero.Actions.FirstOrDefault(action => action.Key == "resume");
     var mainProjects = Model.Projects
         .Where(project => !project.Title.EndsWith(" API", StringComparison.OrdinalIgnoreCase))
         .ToList();
@@ -14,33 +14,40 @@
 
 <section class="mx-auto grid min-h-[680px] w-full max-w-6xl items-center px-5 py-20 sm:px-8 md:grid-cols-[minmax(0,1fr)_220px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14 lg:py-28">
     <div>
-        <p class="text-sm font-medium text-forest dark:text-[#90b89d]">@(isRtl ? "سلام، من" : "Hello, I'm")</p>
-        <h1 class="mt-3 text-5xl font-semibold tracking-[-0.045em] sm:text-7xl">@Model.Content.Name</h1>
-        <p class="mt-4 text-2xl text-black/65 dark:text-white/65 sm:text-3xl">@Model.Content.Title</p>
+        <p class="text-sm font-medium text-forest dark:text-[#90b89d]">@Model.Content.Hero.Greeting</p>
+        <h1 class="mt-3 text-5xl font-semibold tracking-[-0.045em] sm:text-7xl">@Model.Content.Hero.Name</h1>
+        <p class="mt-4 text-2xl text-black/65 dark:text-white/65 sm:text-3xl">@Model.Content.Hero.Title</p>
 
         <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-black/55 dark:text-white/55">
-            <span class="inline-flex items-center gap-2">
-                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.1 6-10A6 6 0 1 0 4 8c0 4.9 6 10 6 10Z" stroke="currentColor" stroke-width="1.4" /><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.4" /></svg>
-                @(isRtl ? "استانبول، ترکیه" : "Istanbul, Turkey")
-            </span>
-            <span class="inline-flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-[#4c9b64]"></span>
-                @(isRtl ? "آماده همکاری ریموت و جابجایی" : "Remote and open to relocation")
-            </span>
+            @foreach (var detail in Model.Content.Hero.Details)
+            {
+                <span class="inline-flex items-center gap-2">
+                    @if (detail.Icon == "location")
+                    {
+                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.1 6-10A6 6 0 1 0 4 8c0 4.9 6 10 6 10Z" stroke="currentColor" stroke-width="1.4" /><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.4" /></svg>
+                    }
+                    else
+                    {
+                        <span class="h-2 w-2 rounded-full bg-[#4c9b64]"></span>
+                    }
+                    @detail.Text
+                </span>
+            }
         </div>
 
-        <p class="mt-8 max-w-2xl text-base leading-8 text-black/62 dark:text-white/62">@Model.Content.Bio</p>
+        <p class="mt-8 max-w-2xl text-base leading-8 text-black/62 dark:text-white/62">@Model.Content.Hero.Bio</p>
 
         <div class="mt-9 flex flex-wrap gap-3">
-            <a href="#work" class="inline-flex h-11 items-center rounded-md bg-ink px-5 text-sm font-medium text-white transition hover:bg-forest dark:bg-[#ecece5] dark:text-[#151613] dark:hover:bg-[#90b89d]">
-                @(isRtl ? "مشاهده پروژه‌ها" : "View my work")
-            </a>
-            <a href="https://drive.google.com/file/d/1hj6eQTa1CEkTYAkX9p-zkouZU94Ebm07/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex h-11 items-center rounded-md border border-black/15 px-5 text-sm font-medium transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40">
-                @(isRtl ? "مشاهده رزومه" : "View resume")
-            </a>
-            <a href="#contact" class="inline-flex h-11 items-center px-2 text-sm font-medium text-forest underline decoration-forest/25 underline-offset-4 dark:text-[#90b89d]">
-                @(isRtl ? "تماس با من" : "Contact me")
-            </a>
+            @foreach (var action in Model.Content.Hero.Actions)
+            {
+                var actionClass = action.Style switch
+                {
+                    "primary" => "inline-flex h-11 items-center rounded-md bg-ink px-5 text-sm font-medium text-white transition hover:bg-forest dark:bg-[#ecece5] dark:text-[#151613] dark:hover:bg-[#90b89d]",
+                    "secondary" => "inline-flex h-11 items-center rounded-md border border-black/15 px-5 text-sm font-medium transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40",
+                    _ => "inline-flex h-11 items-center px-2 text-sm font-medium text-forest underline decoration-forest/25 underline-offset-4 dark:text-[#90b89d]"
+                };
+                <a href="@action.Url" target="@(action.OpenInNewTab ? "_blank" : null)" rel="@(action.OpenInNewTab ? "noopener noreferrer" : null)" class="@actionClass">@action.Text</a>
+            }
         </div>
     </div>
 
@@ -60,7 +67,7 @@
 
 <section id="work" class="relative scroll-mt-24 border-t border-black/10 dark:border-white/10">
     <div class="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-        <h2 class="text-4xl font-semibold tracking-tight">@(isRtl ? "پروژه‌های منتخب" : "Selected work")</h2>
+        <h2 class="text-4xl font-semibold tracking-tight">@Model.Content.Work.Title</h2>
 
         <div class="mt-14 space-y-10">
             @foreach (var project in mainProjects)
@@ -148,7 +155,7 @@
                                 }
                                 @if (!string.IsNullOrWhiteSpace(project.LiveDemoUrl))
                                 {
-                                    <a href="@project.LiveDemoUrl" target="_blank" rel="noreferrer" class="text-forest underline decoration-forest/25 underline-offset-4 dark:text-[#90b89d]">@(isRtl ? "دموی آنلاین" : "Live demo") ↗</a>
+                                    <a href="@project.LiveDemoUrl" target="_blank" rel="noreferrer" class="text-forest underline decoration-forest/25 underline-offset-4 dark:text-[#90b89d]">@Model.Content.Work.LiveDemo ↗</a>
                                 }
                             </div>
                         </div>
@@ -159,7 +166,7 @@
                         <div class="border-t border-black/10 bg-black/[.018] p-5 dark:border-white/10 dark:bg-black/10 sm:p-6">
                             <div class="grid gap-5 sm:grid-cols-[160px_1fr_auto] sm:items-center">
                                 <div>
-                                    <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">@(isRtl ? "سرویس همراه" : "Companion service")</p>
+                                    <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">@Model.Content.Work.CompanionService</p>
                                     <h4 class="mt-1 font-semibold">@apiProject.Title</h4>
                                 </div>
                                 <div>
@@ -173,7 +180,7 @@
                                 </div>
                                 @if (!string.IsNullOrWhiteSpace(apiProject.GitHubUrl))
                                 {
-                                    <a href="@apiProject.GitHubUrl" target="_blank" rel="noreferrer" class="text-xs font-medium text-forest dark:text-[#90b89d]">API source ↗</a>
+                                    <a href="@apiProject.GitHubUrl" target="_blank" rel="noreferrer" class="text-xs font-medium text-forest dark:text-[#90b89d]">@Model.Content.Work.ApiSource ↗</a>
                                 }
                             </div>
                         </div>
@@ -276,8 +283,11 @@
     </div>
     <div class="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
         <div class="flex items-center justify-between gap-6">
-            <h2 class="text-4xl font-semibold tracking-tight">@(isRtl ? "سابقه کاری" : "Work history")</h2>
-            <a href="https://drive.google.com/file/d/1hj6eQTa1CEkTYAkX9p-zkouZU94Ebm07/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="hidden flex-none text-sm font-medium text-forest underline decoration-forest/25 underline-offset-4 sm:block dark:text-[#90b89d]">@(isRtl ? "مشاهده رزومه" : "View resume") ↗</a>
+            <h2 class="text-4xl font-semibold tracking-tight">@Model.Content.Experience.Title</h2>
+            @if (resumeAction is not null)
+            {
+                <a href="@resumeAction.Url" target="_blank" rel="noopener noreferrer" class="hidden flex-none text-sm font-medium text-forest underline decoration-forest/25 underline-offset-4 sm:block dark:text-[#90b89d]">@resumeAction.Text ↗</a>
+            }
         </div>
 
         <div class="mt-14 border-t border-black/10 dark:border-white/10">
@@ -322,16 +332,25 @@
         </div>
 
         <div class="mt-10 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-lg border border-black/10 p-5 dark:border-white/10">
-                <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">@(isRtl ? "تحصیلات" : "Education")</p>
-                <p class="mt-3 font-medium">@(isRtl ? "کارشناسی مهندسی کامپیوتر" : "B.Sc. in Computer Engineering")</p>
-                <p class="mt-1 text-sm text-black/50 dark:text-white/50">@(isRtl ? "دانشگاه آزاد مشهد، ۱۴۰۱ - ۱۴۰۵" : "Azad University of Mashhad, 2022 - 2026")</p>
-            </div>
-            <div class="rounded-lg border border-black/10 p-5 dark:border-white/10">
-                <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">@(isRtl ? "زبان‌ها" : "Languages")</p>
-                <p class="mt-3 font-medium">@(isRtl ? "انگلیسی - مسلط" : "English - Proficient")</p>
-                <p class="mt-1 text-sm text-black/50 dark:text-white/50">@(isRtl ? "آلمانی - B2" : "German - B2")</p>
-            </div>
+            @foreach (var card in Model.Content.Experience.InfoCards)
+            {
+                <div class="rounded-lg border border-black/10 p-5 dark:border-white/10">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">@card.Label</p>
+                    @if (!string.IsNullOrWhiteSpace(card.Heading))
+                    {
+                        <p class="mt-3 font-medium">@card.Heading</p>
+                    }
+                    <div class="mt-4 divide-y divide-black/[.07] dark:divide-white/[.07]">
+                        @foreach (var item in card.Items)
+                        {
+                            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3 first:pt-0 last:pb-0">
+                                <span class="text-sm font-medium">@item.Title</span>
+                                <span dir="ltr" class="text-xs text-black/45 dark:text-white/45">@item.Detail</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>
@@ -349,91 +368,31 @@
         </div>
     </div>
     <div class="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-        <h2 class="text-4xl font-semibold tracking-tight">@(isRtl ? "ابزار و تخصص" : "Tools and expertise")</h2>
+        <h2 class="text-4xl font-semibold tracking-tight">@Model.Content.Skills.Title</h2>
 
         <div class="mt-14 space-y-4">
-            <div class="rounded-xl border border-black/10 p-6 dark:border-white/10">
-                <h3 class="text-sm font-semibold">@(isRtl ? "بک‌اند و فریم‌ورک‌ها" : "Backend and frameworks")</h3>
-                <div dir="ltr" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                    @foreach (var skill in new[] {
-                        (".NET / C#", "/images/skills/dotnet.svg"),
-                        ("ASP.NET Core", "/images/skills/dotnet.svg"),
-                        ("EF Core", "/images/skills/dotnet.svg"),
-                        ("Dapper", "/images/skills/dotnet.svg"),
-                        ("Node.js", "/images/skills/nodejs.svg"),
-                        ("Express", "/images/skills/express.svg")
-                    })
-                    {
-                        <div class="flex min-h-16 items-center gap-3 rounded-lg border border-black/[.06] bg-black/[.025] px-3 dark:border-white/[.06] dark:bg-white/[.035]">
-                            <img src="@skill.Item2" alt="" class="h-5 w-5 flex-none object-contain opacity-90" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');this.nextElementSibling.classList.add('grid')" />
-                            <span class="hidden h-5 w-5 flex-none place-items-center rounded bg-forest/10 text-[10px] font-semibold text-forest dark:text-[#90b89d]">@skill.Item1.Substring(0, 1)</span>
-                            <span class="text-xs font-medium">@skill.Item1</span>
-                        </div>
-                    }
+            @foreach (var group in Model.Content.Skills.Groups)
+            {
+                var skillsGridClass = group.Items.Count switch
+                {
+                    6 => "lg:grid-cols-6",
+                    5 => "lg:grid-cols-5",
+                    _ => "lg:grid-cols-4"
+                };
+                <div class="rounded-xl border border-black/10 p-6 dark:border-white/10">
+                    <h3 class="text-sm font-semibold">@group.Title</h3>
+                    <div dir="ltr" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 @skillsGridClass">
+                        @foreach (var skill in group.Items)
+                        {
+                            <div class="flex min-h-16 items-center gap-3 rounded-lg border border-black/[.06] bg-black/[.025] px-3 dark:border-white/[.06] dark:bg-white/[.035]">
+                                <img src="@skill.LogoUrl" alt="" class="h-5 w-5 flex-none object-contain opacity-90" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');this.nextElementSibling.classList.add('grid')" />
+                                <span class="hidden h-5 w-5 flex-none place-items-center rounded bg-forest/10 text-[10px] font-semibold text-forest dark:text-[#90b89d]">@skill.Name.Substring(0, 1)</span>
+                                <span class="text-xs font-medium">@skill.Name</span>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
-
-            <div class="rounded-xl border border-black/10 p-6 dark:border-white/10">
-                <h3 class="text-sm font-semibold">@(isRtl ? "داده و API" : "Data and APIs")</h3>
-                <div dir="ltr" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                    @foreach (var skill in new[] {
-                        ("PostgreSQL", "/images/skills/postgresql.svg"),
-                        ("MongoDB", "/images/skills/mongodb.svg"),
-                        ("Redis", "/images/skills/redis.svg"),
-                        ("REST APIs", "/images/skills/openapi.svg"),
-                        ("Swagger / OpenAPI", "/images/skills/swagger.svg")
-                    })
-                    {
-                        <div class="flex min-h-16 items-center gap-3 rounded-lg border border-black/[.06] bg-black/[.025] px-3 dark:border-white/[.06] dark:bg-white/[.035]">
-                            <img src="@skill.Item2" alt="" class="h-5 w-5 flex-none object-contain opacity-90" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');this.nextElementSibling.classList.add('grid')" />
-                            <span class="hidden h-5 w-5 flex-none place-items-center rounded bg-forest/10 text-[10px] font-semibold text-forest dark:text-[#90b89d]">@skill.Item1.Substring(0, 1)</span>
-                            <span class="text-xs font-medium">@skill.Item1</span>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div class="rounded-xl border border-black/10 p-6 dark:border-white/10">
-                <h3 class="text-sm font-semibold">@(isRtl ? "زیرساخت و تحویل" : "Infrastructure and delivery")</h3>
-                <div dir="ltr" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                    @foreach (var skill in new[] {
-                        ("Docker", "/images/skills/docker.svg"),
-                        ("Linux", "/images/skills/linux.svg"),
-                        ("Azure", "/images/skills/azure.svg"),
-                        ("GitLab CI", "/images/skills/gitlab.svg"),
-                        ("RabbitMQ", "/images/skills/rabbitmq.svg"),
-                        ("Git", "/images/skills/git.svg"),
-                        ("SigNoz", "/images/skills/signoz.webp"),
-                        ("Jira / Agile", "/images/skills/jira.svg")
-                    })
-                    {
-                        <div class="flex min-h-16 items-center gap-3 rounded-lg border border-black/[.06] bg-black/[.025] px-3 dark:border-white/[.06] dark:bg-white/[.035]">
-                            <img src="@skill.Item2" alt="" class="h-5 w-5 flex-none object-contain opacity-90" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');this.nextElementSibling.classList.add('grid')" />
-                            <span class="hidden h-5 w-5 flex-none place-items-center rounded bg-forest/10 text-[10px] font-semibold text-forest dark:text-[#90b89d]">@skill.Item1.Substring(0, 1)</span>
-                            <span class="text-xs font-medium">@skill.Item1</span>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div class="rounded-xl border border-black/10 p-6 dark:border-white/10">
-                <h3 class="text-sm font-semibold">@(isRtl ? "تست" : "Testing")</h3>
-                <div dir="ltr" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    @foreach (var skill in new[] {
-                        ("xUnit", "/images/skills/dotnet.svg"),
-                        ("Jest", "/images/skills/jest.svg"),
-                        ("Playwright", "/images/skills/playwright.svg"),
-                        ("k6", "/images/skills/k6.svg")
-                    })
-                    {
-                        <div class="flex min-h-16 items-center gap-3 rounded-lg border border-black/[.06] bg-black/[.025] px-3 dark:border-white/[.06] dark:bg-white/[.035]">
-                            <img src="@skill.Item2" alt="" class="h-5 w-5 flex-none object-contain opacity-90" onerror="this.classList.add('hidden');this.nextElementSibling.classList.remove('hidden');this.nextElementSibling.classList.add('grid')" />
-                            <span class="hidden h-5 w-5 flex-none place-items-center rounded bg-forest/10 text-[10px] font-semibold text-forest dark:text-[#90b89d]">@skill.Item1.Substring(0, 1)</span>
-                            <span class="text-xs font-medium">@skill.Item1</span>
-                        </div>
-                    }
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -446,18 +405,20 @@
         <div class="lg:py-5">
             <span class="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-white/45 px-3 py-1.5 text-xs font-medium text-forest dark:border-[#90b89d]/15 dark:bg-white/[.035] dark:text-[#90b89d]">
                 <span class="h-2 w-2 rounded-full bg-[#4c9b64]"></span>
-                @(isRtl ? "آماده همکاری" : "Open to opportunities")
+                @Model.Content.Contact.Availability
             </span>
-            <h2 class="mt-5 text-4xl font-semibold tracking-tight">@(isRtl ? "بیایید در ارتباط باشیم" : "Let's talk")</h2>
-            <p class="mt-5 max-w-md text-sm leading-7 text-black/55 dark:text-white/55">@(isRtl ? "برای فرصت‌های شغلی دورکاری، موقعیت‌های همراه با امکان جابه‌جایی یا همکاری در پروژه‌های بک‌اند، خوشحال می‌شوم مستقیماً با من در ارتباط باشید." : "For remote roles, relocation opportunities, or a backend project, send me a message directly.")</p>
+            <h2 class="mt-5 text-4xl font-semibold tracking-tight">@Model.Content.Contact.Heading</h2>
+            <p class="mt-5 max-w-md text-sm leading-7 text-black/55 dark:text-white/55">@Model.Content.Contact.Description</p>
             <div class="mt-9 space-y-2.5">
-                <a href="mailto:iliyahmdi.info@gmail.com" class="group flex items-center justify-between gap-4 rounded-lg border border-black/10 bg-white/35 px-4 py-3.5 transition hover:border-forest/30 hover:bg-white/65 dark:border-white/10 dark:bg-white/[.025] dark:hover:border-[#90b89d]/30 dark:hover:bg-white/[.05]">
-                    <span class="min-w-0"><span class="block text-[10px] font-semibold uppercase tracking-[0.12em] text-black/35 dark:text-white/35">Email</span><span class="mt-1 block break-all text-sm font-medium">iliyahmdi.info@gmail.com</span></span>
+                <a href="mailto:@Model.Content.Contact.Email" class="group flex items-center justify-between gap-4 rounded-lg border border-black/10 bg-white/35 px-4 py-3.5 transition hover:border-forest/30 hover:bg-white/65 dark:border-white/10 dark:bg-white/[.025] dark:hover:border-[#90b89d]/30 dark:hover:bg-white/[.05]">
+                    <span class="min-w-0"><span class="block text-[10px] font-semibold uppercase tracking-[0.12em] text-black/35 dark:text-white/35">@Model.Content.Contact.EmailLabel</span><span class="mt-1 block break-all text-sm font-medium">@Model.Content.Contact.Email</span></span>
                     <span class="text-forest transition group-hover:translate-x-0.5 dark:text-[#90b89d]">↗</span>
                 </a>
-                <div class="grid grid-cols-2 gap-2.5">
-                    <a href="https://linkedin.com/in/iliyaahmadi" target="_blank" rel="noreferrer" class="group flex items-center justify-between rounded-lg border border-black/10 bg-white/35 px-4 py-3.5 text-sm font-medium transition hover:border-forest/30 hover:bg-white/65 dark:border-white/10 dark:bg-white/[.025] dark:hover:border-[#90b89d]/30 dark:hover:bg-white/[.05]"><span>LinkedIn</span><span class="text-forest transition group-hover:translate-x-0.5 dark:text-[#90b89d]">↗</span></a>
-                    <a href="https://github.com/iliyaahmadi" target="_blank" rel="noreferrer" class="group flex items-center justify-between rounded-lg border border-black/10 bg-white/35 px-4 py-3.5 text-sm font-medium transition hover:border-forest/30 hover:bg-white/65 dark:border-white/10 dark:bg-white/[.025] dark:hover:border-[#90b89d]/30 dark:hover:bg-white/[.05]"><span>GitHub</span><span class="text-forest transition group-hover:translate-x-0.5 dark:text-[#90b89d]">↗</span></a>
+                <div class="grid gap-2.5 sm:grid-cols-2">
+                    @foreach (var link in Model.Content.Contact.Links)
+                    {
+                        <a href="@link.Url" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between rounded-lg border border-black/10 bg-white/35 px-4 py-3.5 text-sm font-medium transition hover:border-forest/30 hover:bg-white/65 dark:border-white/10 dark:bg-white/[.025] dark:hover:border-[#90b89d]/30 dark:hover:bg-white/[.05]"><span>@link.Label</span><span class="text-forest transition group-hover:translate-x-0.5 dark:text-[#90b89d]">↗</span></a>
+                    }
                 </div>
             </div>
         </div>
@@ -465,7 +426,7 @@
         <div class="rounded-2xl border border-forest/15 bg-[#dfe6dc]/90 p-6 shadow-[0_28px_70px_-48px_rgba(41,72,49,.7)] dark:border-white/10 dark:bg-[#1c201c] dark:shadow-none sm:p-8">
             @if (Model.MessageSent)
             {
-                <div role="status" aria-live="polite" class="grid min-h-[320px] place-items-center rounded-xl border border-forest/10 bg-white/45 p-8 text-center text-sm text-forest dark:border-white/10 dark:bg-black/15 dark:text-[#90b89d]">@(isRtl ? "ممنون - پیام شما ارسال شد. به‌زودی پاسخ می‌دهم." : "Thanks - your message has been sent. I'll get back to you soon.")</div>
+                <div role="status" aria-live="polite" class="grid min-h-[320px] place-items-center rounded-xl border border-forest/10 bg-white/45 p-8 text-center text-sm text-forest dark:border-white/10 dark:bg-black/15 dark:text-[#90b89d]">@Model.Content.Contact.SuccessMessage</div>
             }
             else
             {
@@ -473,35 +434,33 @@
                     @if (Model.MessageRateLimited)
                     {
                         <div role="alert" class="rounded-lg border border-[#b7793b]/25 bg-[#fff4e7]/80 px-4 py-3 text-sm leading-6 text-[#754515] dark:border-[#e1a865]/20 dark:bg-[#e1a865]/10 dark:text-[#efc28d]">
-                            @(isRtl
-                                ? $"تعداد پیام‌ها از این اتصال بیش از حد مجاز است. لطفاً حدود {Model.RetryAfterMinutes} دقیقه دیگر دوباره تلاش کنید یا مستقیماً ایمیل بزنید."
-                                : $"Too many messages have been sent from this connection. Please try again in about {Model.RetryAfterMinutes} minutes or email me directly.")
+                            @Model.Content.Contact.RateLimitMessage.Replace("{minutes}", Model.RetryAfterMinutes.ToString())
                         </div>
                     }
                     @if (Model.MessageFailed)
                     {
                         <div role="alert" class="rounded-lg border border-[#b7793b]/25 bg-[#fff4e7]/80 px-4 py-3 text-sm leading-6 text-[#754515] dark:border-[#e1a865]/20 dark:bg-[#e1a865]/10 dark:text-[#efc28d]">
-                            @(isRtl ? "ارسال پیام انجام نشد. لطفاً دوباره تلاش کنید یا مستقیماً ایمیل بزنید." : "The message could not be sent. Please try again or email me directly.")
+                            @Model.Content.Contact.FailureMessage
                         </div>
                     }
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label asp-for="Input.Name" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@(isRtl ? "نام" : "Name")</label>
+                            <label asp-for="Input.Name" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@Model.Content.Contact.NameLabel</label>
                             <input asp-for="Input.Name" autocomplete="name" class="h-12 w-full rounded-lg border border-black/10 bg-white/75 px-4 text-sm shadow-sm outline-none transition placeholder:text-black/25 focus:border-forest/50 focus:bg-white focus:ring-4 focus:ring-forest/10 dark:border-white/10 dark:bg-black/20 dark:shadow-none dark:focus:border-[#90b89d]/45 dark:focus:bg-black/30 dark:focus:ring-[#90b89d]/10" />
                             <span asp-validation-for="Input.Name" class="mt-1.5 block text-xs text-red-500"></span>
                         </div>
                         <div>
-                            <label asp-for="Input.Email" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@(isRtl ? "ایمیل" : "Email")</label>
+                            <label asp-for="Input.Email" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@Model.Content.Contact.EmailFieldLabel</label>
                             <input asp-for="Input.Email" autocomplete="email" inputmode="email" class="h-12 w-full rounded-lg border border-black/10 bg-white/75 px-4 text-sm shadow-sm outline-none transition placeholder:text-black/25 focus:border-forest/50 focus:bg-white focus:ring-4 focus:ring-forest/10 dark:border-white/10 dark:bg-black/20 dark:shadow-none dark:focus:border-[#90b89d]/45 dark:focus:bg-black/30 dark:focus:ring-[#90b89d]/10" />
                             <span asp-validation-for="Input.Email" class="mt-1.5 block text-xs text-red-500"></span>
                         </div>
                     </div>
                     <div>
-                        <label asp-for="Input.Message" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@(isRtl ? "پیام" : "Message")</label>
+                        <label asp-for="Input.Message" class="mb-2 block text-xs font-medium text-black/65 dark:text-white/65">@Model.Content.Contact.MessageLabel</label>
                         <textarea asp-for="Input.Message" rows="6" class="w-full resize-none rounded-lg border border-black/10 bg-white/75 p-4 text-sm leading-6 shadow-sm outline-none transition placeholder:text-black/25 focus:border-forest/50 focus:bg-white focus:ring-4 focus:ring-forest/10 dark:border-white/10 dark:bg-black/20 dark:shadow-none dark:focus:border-[#90b89d]/45 dark:focus:bg-black/30 dark:focus:ring-[#90b89d]/10"></textarea>
                         <span asp-validation-for="Input.Message" class="mt-1.5 block text-xs text-red-500"></span>
                     </div>
-                    <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-medium text-white transition hover:bg-forest focus:outline-none focus:ring-4 focus:ring-forest/15 sm:w-auto dark:bg-[#e7ebe5] dark:text-[#151613] dark:hover:bg-[#90b89d] dark:focus:ring-[#90b89d]/15"><span>@(isRtl ? "ارسال پیام" : "Send message")</span><span aria-hidden="true">↗</span></button>
+                    <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-medium text-white transition hover:bg-forest focus:outline-none focus:ring-4 focus:ring-forest/15 sm:w-auto dark:bg-[#e7ebe5] dark:text-[#151613] dark:hover:bg-[#90b89d] dark:focus:ring-[#90b89d]/15"><span>@Model.Content.Contact.SubmitText</span><span aria-hidden="true">↗</span></button>
                 </form>
             }
         </div>

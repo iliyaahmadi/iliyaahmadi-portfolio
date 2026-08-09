@@ -13,15 +13,15 @@ public class JsonProjectSource : IProjectSource
 
     public async Task<List<Project>> GetAllAsync(string culture)
     {
-        var fileName = $"projects.{culture}.json";
+        var fileName = $"selected-work.{culture}.json";
         var path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", fileName);
 
         if (!File.Exists(path))
-            path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", "projects.en.json");
+            path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", "selected-work.en.json");
 
         await using var stream = File.OpenRead(path);
-        var projects = await JsonSerializer.DeserializeAsync<List<Project>>(stream, Options);
+        var section = await JsonSerializer.DeserializeAsync<WorkSectionContent>(stream, Options);
 
-        return projects ?? [];
+        return section?.Projects ?? [];
     }
 }

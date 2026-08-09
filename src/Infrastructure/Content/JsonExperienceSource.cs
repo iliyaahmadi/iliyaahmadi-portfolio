@@ -13,15 +13,15 @@ public class JsonExperienceSource : IExperienceSource
 
     public async Task<List<ExperienceEntry>> GetAllAsync(string culture)
     {
-        var fileName = $"experience.{culture}.json";
+        var fileName = $"work-history.{culture}.json";
         var path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", fileName);
 
         if (!File.Exists(path))
-            path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", "experience.en.json");
+            path = Path.Combine(AppContext.BaseDirectory, "Content", "Data", "work-history.en.json");
 
         await using var stream = File.OpenRead(path);
-        var entries = await JsonSerializer.DeserializeAsync<List<ExperienceEntry>>(stream, Options);
+        var section = await JsonSerializer.DeserializeAsync<ExperienceSectionContent>(stream, Options);
 
-        return entries ?? [];
+        return section?.Entries ?? [];
     }
 }

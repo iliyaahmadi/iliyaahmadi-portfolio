@@ -99,6 +99,10 @@ public class IndexModel : PageModel
         Content = await _mediator.Send(new GetHomeContentQuery(Culture));
         Experience = await _mediator.Send(new GetAllExperienceQuery(Culture));
         Projects = await _mediator.Send(new GetAllProjectsQuery(Culture));
+        ViewData["Title"] = Content.Hero.PageTitle;
+        ViewData["MetaDescription"] = Content.Hero.MetaDescription;
+        ViewData["SiteName"] = Content.Hero.SiteName;
+        ViewData["Navigation"] = Content.Hero.Navigation;
     }
 
     public class ContactFormInput
