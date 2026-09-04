@@ -1,0 +1,71 @@
+{
+  "title": "Ausgewählte Projekte",
+  "liveDemo": "Live-Demo",
+  "companionService": "Zugehöriger Dienst",
+  "apiSource": "API-Quellcode",
+  "projects": [
+    {
+      "title": "Mohajer",
+      "description": "Eine KI-gestützte Webanwendung, die Auswanderungsentscheidungen durch strukturierte Orientierung und personalisierte Fragen unterstützt.",
+      "techStack": ["ASP.NET Core", "C#", "DDD", "Clean Architecture", "CQRS", "MediatR", "PostgreSQL", "LLM Integration"],
+      "gitHubUrl": null,
+      "liveDemoUrl": null,
+      "imageUrl": null,
+      "status": "In Entwicklung"
+    },
+    {
+      "title": "Emart",
+      "description": "Eine produktionsreife persische Website für eine Digitalmarketing-Agentur mit verwaltbarer öffentlicher Website, Blog, Portfolio, SEO-Werkzeugen und sicherem Administrationsbereich.",
+      "techStack": ["ASP.NET Core MVC", "C#", "PostgreSQL", "Entity Framework Core", "Identity", "Tailwind CSS"],
+      "gitHubUrl": null,
+      "liveDemoUrl": "https://emart-preview.onrender.com/",
+      "imageUrl": "/images/projects/emart-landing.webp",
+      "imageUrls": [
+        "/images/projects/emart-landing.webp",
+        "/images/projects/emart-admin.webp"
+      ],
+      "status": "Verfügbar"
+    },
+    {
+      "title": "OutRight",
+      "description": "Eine Full-Stack-E-Commerce-Anwendung für Gaming-Produkte mit Katalog, Authentifizierung, Warenkorb und Bestellabläufen.",
+      "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],
+      "gitHubUrl": "https://github.com/iliyaahmadi/OutRight",
+      "liveDemoUrl": null,
+      "imageUrl": "/images/projects/outright-home.webp",
+      "imageUrls": [
+        "/images/projects/outright-home.webp",
+        "/images/projects/outright-account.webp",
+        "/images/projects/outright-signup.webp"
+      ],
+      "status": "Verfügbar"
+    },
+    {
+      "title": "OutRight API",
+      "description": "Die REST-API hinter OutRight für Authentifizierung, Produkte und Bestellverwaltung.",
+      "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "bcrypt"],
+      "gitHubUrl": "https://github.com/iliyaahmadi/OutRightApi",
+      "liveDemoUrl": null,
+      "imageUrl": null,
+      "status": "Verfügbar"
+    },
+    {
+      "title": "Rockify",
+      "description": "Eine Musikanwendung zum Entdecken und Abspielen von Titeln sowie zur Verwaltung von Playlists und Konten.",
+      "techStack": ["React", "Material UI", "Axios", "React Router"],
+      "gitHubUrl": "https://github.com/iliyaahmadi/Rockify",
+      "liveDemoUrl": null,
+      "imageUrl": "/images/projects/rockify.webp",
+      "status": "Verfügbar"
+    },
+    {
+      "title": "Rockify API",
+      "description": "Das Backend für Rockify mit Authentifizierung, Titel- und Playlist-Daten sowie Medien-Uploads.",
+      "techStack": ["Node.js", "Express", "PostgreSQL", "Sequelize", "JWT", "Multer"],
+      "gitHubUrl": "https://github.com/iliyaahmadi/RockifyApi",
+      "liveDemoUrl": null,
+      "imageUrl": null,
+      "status": "Verfügbar"
+    }
+  ]
+}

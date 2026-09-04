@@ -1,7 +1,14 @@
 @page
 @model Web.Pages.IndexModel
 @{
-    var isRtl = (ViewData["Culture"]?.ToString() ?? "en") == "fa";
+    var culture = ViewData["Culture"]?.ToString() ?? "en";
+    var isRtl = culture == "fa";
+    var portraitLabel = culture switch
+    {
+        "de" => "Pixel-Huhn anzeigen",
+        "fa" => "نمایش جوجه پیکسلی",
+        _ => "Reveal the pixel chick"
+    };
     var resumeAction = Model.Content.Hero.Actions.FirstOrDefault(action => action.Key == "resume");
     var mainProjects = Model.Projects
         .Where(project => !project.Title.EndsWith(" API", StringComparison.OrdinalIgnoreCase))
@@ -52,13 +59,13 @@
     </div>
 
     <figure class="mx-auto hidden w-full max-w-[220px] md:block lg:max-w-[340px]">
-        <button type="button" class="portrait-flip aspect-square w-full cursor-pointer rounded-lg outline-none focus-visible:ring-4 focus-visible:ring-forest/20 dark:focus-visible:ring-[#90b89d]/20" aria-label="@(isRtl ? "نمایش تصویر ایلیا احمدی" : "Reveal a portrait of Iliya Ahmadi")">
+        <button type="button" class="portrait-flip aspect-square w-full cursor-pointer rounded-lg outline-none focus-visible:ring-4 focus-visible:ring-forest/20 dark:focus-visible:ring-[#90b89d]/20" aria-label="@portraitLabel">
             <span class="portrait-flip-inner block">
                 <span class="portrait-flip-face block overflow-hidden rounded-lg border border-black/10 bg-[#dce7d8] p-2 dark:border-white/10 dark:bg-[#263127]">
-                    <img src="~/images/minecraft-chick.webp" alt="" aria-hidden="true" class="pixel-art aspect-square w-full rounded object-cover" />
+                    <img src="~/images/iliya-ahmadi.webp" alt="" aria-hidden="true" class="aspect-square w-full rounded object-cover" />
                 </span>
                 <span class="portrait-flip-face portrait-flip-back block overflow-hidden rounded-lg border border-black/10 bg-[#e5e3dc] p-2 dark:border-white/10 dark:bg-[#292925]">
-                    <img src="~/images/iliya-ahmadi.webp" alt="" aria-hidden="true" class="aspect-square w-full rounded object-cover" />
+                    <img src="~/images/minecraft-chick.webp" alt="" aria-hidden="true" class="pixel-art aspect-square w-full rounded object-cover" />
                 </span>
             </span>
         </button>
@@ -78,24 +85,52 @@
                 var projectImages = project.ImageUrls.Count > 0
                     ? project.ImageUrls
                     : string.IsNullOrWhiteSpace(project.ImageUrl) ? [] : new List<string> { project.ImageUrl };
+                var galleryLabel = culture switch
+                {
+                    "de" => $"Automatisch wechselnde Bildergalerie für das Projekt {project.Title}",
+                    "fa" => $"گالری خودکار تصاویر پروژه {project.Title}",
+                    _ => $"Automatically rotating screenshot gallery for {project.Title}"
+                };
 
                 <article class="overflow-hidden rounded-xl border border-black/10 bg-white/55 dark:border-white/10 dark:bg-white/[.025]">
                     <div class="grid lg:grid-cols-[1.05fr_.95fr]">
                         <div class="border-b border-black/10 p-4 dark:border-white/10 lg:border-b-0 lg:border-e">
                             @if (projectImages.Count > 0)
                             {
-                                <div data-project-carousel data-slide-index="0" tabindex="0" class="project-gallery relative block aspect-[16/10] h-full w-full overflow-hidden rounded-lg border border-black/10 bg-[#101012] text-start outline-none focus-visible:ring-2 focus-visible:ring-forest/60 dark:border-white/10 dark:focus-visible:ring-[#90b89d]/60" role="region" aria-roledescription="carousel" aria-label="@(isRtl ? $"گالری خودکار تصاویر پروژه {project.Title}" : $"Automatically rotating screenshot gallery for {project.Title}")">
-                                    <div data-carousel-track dir="ltr" class="flex h-full snap-x snap-mandatory overflow-hidden">
+                                <div data-project-carousel data-slide-index="0" tabindex="0" class="project-gallery relative block aspect-[16/10] h-full w-full overflow-hidden rounded-lg border border-black/10 bg-[#101012] text-start outline-none focus-visible:ring-2 focus-visible:ring-forest/60 dark:border-white/10 dark:focus-visible:ring-[#90b89d]/60" role="region" aria-roledescription="carousel" aria-label="@galleryLabel">
+                                    <div data-carousel-track dir="ltr" class="flex h-full transition-transform duration-700 ease-in-out motion-reduce:transition-none">
                                         @for (var imageIndex = 0; imageIndex < projectImages.Count; imageIndex++)
                                         {
-                                            <img src="@projectImages[imageIndex]"
-                                                 alt="@(isRtl ? $"تصویر {imageIndex + 1} از پروژه {project.Title}" : $"{project.Title} screenshot {imageIndex + 1} of {projectImages.Count}")"
-                                                 loading="lazy"
-                                                 decoding="async"
-                                                 draggable="false"
-                                                 class="project-gallery-image h-full w-full flex-none snap-center object-contain object-center" />
+                                            <div class="project-gallery-slide relative h-full w-full flex-none overflow-hidden">
+                                                <img src="@projectImages[imageIndex]"
+                                                     alt=""
+                                                     aria-hidden="true"
+                                                     loading="lazy"
+                                                     decoding="async"
+                                                     draggable="false"
+                                                     class="project-gallery-backdrop absolute inset-0 h-full w-full object-cover object-center" />
+                                                <img src="@projectImages[imageIndex]"
+                                                     alt="@(culture switch { "de" => $"Bild {imageIndex + 1} von {projectImages.Count} des Projekts {project.Title}", "fa" => $"تصویر {imageIndex + 1} از پروژه {project.Title}", _ => $"{project.Title} screenshot {imageIndex + 1} of {projectImages.Count}" })"
+                                                     loading="lazy"
+                                                     decoding="async"
+                                                     draggable="false"
+                                                     class="project-gallery-image absolute inset-0 h-full w-full object-contain object-center" />
+                                            </div>
                                         }
                                     </div>
+                                    @if (projectImages.Count > 1)
+                                    {
+                                        <div class="absolute inset-x-0 bottom-3 z-20 flex justify-center gap-2" aria-label="@(culture switch { "de" => "Projektbild auswählen", "fa" => "انتخاب تصویر پروژه", _ => "Choose project screenshot" })">
+                                            @for (var imageIndex = 0; imageIndex < projectImages.Count; imageIndex++)
+                                            {
+                                                <button type="button"
+                                                        data-carousel-dot="@imageIndex"
+                                                        class="h-2 w-2 rounded-full bg-white/45 shadow-sm ring-1 ring-black/20 transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                                                        aria-label="@(culture switch { "de" => $"Bild {imageIndex + 1} anzeigen", "fa" => $"نمایش تصویر {imageIndex + 1}", _ => $"Show screenshot {imageIndex + 1}" })"
+                                                        aria-current="@(imageIndex == 0 ? "true" : "false")"></button>
+                                            }
+                                        </div>
+                                    }
                                 </div>
                             }
                             else
@@ -202,23 +237,32 @@
             gallery.galleryTimer = 0;
         }
 
-        function advanceProjectGallery(gallery) {
+        function showProjectGallerySlide(gallery, index) {
             const track = gallery.querySelector('[data-carousel-track]');
             const slides = track ? [...track.children] : [];
-            if (!track || slides.length < 2) return;
+            if (!track || slides.length === 0) return;
 
-            const nextIndex = (Number(gallery.dataset.slideIndex || 0) + 1) % slides.length;
+            const nextIndex = ((index % slides.length) + slides.length) % slides.length;
             gallery.dataset.slideIndex = nextIndex.toString();
-            track.scrollTo({
-                left: nextIndex * track.clientWidth,
-                behavior: 'smooth'
+            track.style.transform = `translate3d(-${nextIndex * 100}%, 0, 0)`;
+
+            gallery.querySelectorAll('[data-carousel-dot]').forEach((dot, dotIndex) => {
+                const isActive = dotIndex === nextIndex;
+                dot.setAttribute('aria-current', isActive.toString());
+                dot.classList.toggle('w-5', isActive);
+                dot.classList.toggle('bg-white', isActive);
+                dot.classList.toggle('bg-white/45', !isActive);
             });
+        }
+
+        function advanceProjectGallery(gallery) {
+            showProjectGallerySlide(gallery, Number(gallery.dataset.slideIndex || 0) + 1);
         }
 
         function startProjectGallery(gallery) {
             const track = gallery.querySelector('[data-carousel-track]');
-            if (!track || track.children.length < 2 || gallery.galleryTimer || gallery.matches(':hover') || gallery.contains(document.activeElement) || !gallery.classList.contains('is-visible') || reduceGalleryMotion.matches || document.hidden) return;
-            gallery.galleryTimer = window.setInterval(() => advanceProjectGallery(gallery), 2500);
+            if (!track || track.children.length < 2 || gallery.galleryTimer || !gallery.classList.contains('is-visible') || reduceGalleryMotion.matches || document.hidden) return;
+            gallery.galleryTimer = window.setInterval(() => advanceProjectGallery(gallery), 3500);
         }
 
         function syncProjectGalleries() {
@@ -260,10 +304,13 @@
         }
 
         projectGalleries.forEach(carousel => {
-            carousel.addEventListener('mouseenter', () => stopProjectGallery(carousel));
-            carousel.addEventListener('mouseleave', () => startProjectGallery(carousel));
-            carousel.addEventListener('focusin', () => stopProjectGallery(carousel));
-            carousel.addEventListener('focusout', () => startProjectGallery(carousel));
+            carousel.querySelectorAll('[data-carousel-dot]').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    stopProjectGallery(carousel);
+                    showProjectGallerySlide(carousel, Number(dot.dataset.carouselDot));
+                    startProjectGallery(carousel);
+                });
+            });
         });
 
         window.addEventListener('scroll', scheduleGalleryVisibilityUpdate, { passive: true });

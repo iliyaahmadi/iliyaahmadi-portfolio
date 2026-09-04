@@ -7,6 +7,7 @@
 # Build output
 bin/
 obj/
+tmp/
 
 # User settings
 *.user

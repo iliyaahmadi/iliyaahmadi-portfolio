@@ -1,0 +1,72 @@
+{
+  "title": "Berufserfahrung",
+  "infoCards": [
+    {
+      "label": "Ausbildung",
+      "heading": "Azad University of Mashhad",
+      "items": [
+        { "title": "Associate Degree, Computer Engineering", "detail": "2022–2024 · Abgeschlossen" },
+        { "title": "B.Sc. Computer Engineering", "detail": "2024–2026 · Abschlusssemester" }
+      ]
+    },
+    {
+      "label": "Sprachen",
+      "items": [
+        { "title": "Persisch", "detail": "Muttersprache" },
+        { "title": "Englisch", "detail": "Sehr gute Kenntnisse" },
+        { "title": "Deutsch", "detail": "B2" }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "company": "Part Software Group",
+      "role": "Softwareentwickler",
+      "team": "Team Digitale Signatur",
+      "dateRange": "Aug. 2025–Feb. 2026",
+      "highlights": [
+        "Entwicklung einer Certificate-Authority-Plattform mit .NET 8 und Clean Architecture für Ausstellung, Sperrung und Echtzeit-Statusprüfung über CAs, RAs und OCSP-Responder hinweg – für mehr als 10.000 Zertifikate.",
+        "Umsetzung eines ASP.NET-MVC-Administrationsbereichs für Zertifikate, CAs, RAs und OCSP-Responder mit rollenbasierter Zugriffskontrolle und signierter Audit-Protokollierung."
+      ],
+      "logoUrl": "/images/logos/partsoftware.webp",
+      "groupKey": "part-software-group"
+    },
+    {
+      "company": "Part Software Group",
+      "role": "Softwareentwickler",
+      "team": "Infrastruktur-Team",
+      "dateRange": "Aug. 2024–Aug. 2025",
+      "highlights": [
+        "Konzeption und Betrieb einer Node.js-API-Gateway-Schicht als zentraler Integrationspunkt für sechs interne Produktteams, einschließlich Rate Limiting, Caching und Normalisierung von Fehlern externer Dienste.",
+        "Entwicklung der Lebenszyklus- und Versionsverwaltung für mehr als 100 interne API-Wrapper, wodurch der teamübergreifende Wartungsaufwand um 50 % sank."
+      ],
+      "logoUrl": "/images/logos/partsoftware.webp",
+      "groupKey": "part-software-group"
+    },
+    {
+      "company": "Betatik",
+      "role": "Softwareentwickler",
+      "team": null,
+      "dateRange": "Apr. 2024–Aug. 2024",
+      "highlights": [
+        "Migration eines bestehenden MVC-Backends zu einer geschichteten Node.js- und Express-Architektur, wodurch neue Funktionen 50 % schneller bereitgestellt werden konnten.",
+        "Verlagerung von MongoDB auf inländische Server und Verdopplung der Datenbankleistung.",
+        "Entwicklung zentraler Dienste wie Benutzer-Wallet, Zahlungsservice und Tools zur beruflichen Standortbestimmung für CDP-Berichte und Lebensläufe."
+      ],
+      "logoUrl": "/images/logos/betatik.webp",
+      "groupKey": "betatik"
+    },
+    {
+      "company": "Freiberuflich",
+      "role": "Softwareentwickler",
+      "team": null,
+      "dateRange": "Okt. 2022–März 2024",
+      "highlights": [
+        "Entwicklung von Backend und Frontend einer E-Commerce-Plattform mit Node.js, PostgreSQL und React.",
+        "Entwicklung von Automatisierungsskripten, Telegram-Bots und einer .NET-WinForms-Buchhaltungsanwendung für ein kleines Unternehmen."
+      ],
+      "logoUrl": "",
+      "groupKey": "freelance"
+    }
+  ]
+}
