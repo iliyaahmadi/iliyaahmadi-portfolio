@@ -1,0 +1,18 @@
+{
+  "availability": "Offen für neue Möglichkeiten",
+  "heading": "Lassen Sie uns sprechen",
+  "description": "Für Remote-Stellen, Umzugsmöglichkeiten oder ein Backend-Projekt können Sie mir direkt eine Nachricht senden.",
+  "emailLabel": "E-Mail",
+  "email": "iliyahmdi.info@gmail.com",
+  "links": [
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/iliyaahmadi" },
+    { "label": "GitHub", "url": "https://github.com/iliyaahmadi" }
+  ],
+  "successMessage": "Vielen Dank – Ihre Nachricht wurde gesendet. Ich melde mich in Kürze.",
+  "failureMessage": "Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie mir direkt per E-Mail.",
+  "rateLimitMessage": "Über diese Verbindung wurden zu viele Nachrichten gesendet. Bitte versuchen Sie es in etwa {minutes} Minuten erneut oder schreiben Sie mir direkt per E-Mail.",
+  "nameLabel": "Name",
+  "emailFieldLabel": "E-Mail",
+  "messageLabel": "Nachricht",
+  "submitText": "Nachricht senden"
+}

@@ -4,6 +4,10 @@
     var navigation = ViewData["Navigation"] as Domain.Entities.NavigationContent;
     var siteName = ViewData["SiteName"]?.ToString() ?? "Iliya Ahmadi";
     var metaDescription = ViewData["MetaDescription"]?.ToString() ?? "Iliya Ahmadi - backend-focused software engineer working with Node.js and .NET.";
+    var languageLabel = culture switch { "de" => "Sprache auswählen", "fa" => "انتخاب زبان", _ => "Choose language" };
+    var currentLanguageLabel = culture switch { "de" => "DE", "fa" => "FA", _ => "EN" };
+    var themeLabel = culture switch { "de" => "Farbschema wechseln", "fa" => "تغییر پوسته رنگی", _ => "Toggle color theme" };
+    var menuLabel = culture switch { "de" => "Navigation ein- oder ausblenden", "fa" => "باز و بسته کردن منو", _ => "Toggle navigation" };
 }
 <!DOCTYPE html>
 <html lang="@culture" dir="@(isRtl ? "rtl" : "ltr")" class="scroll-smooth">
@@ -53,10 +57,58 @@
         [dir="rtl"] body { font-family: 'Vazirmatn', 'IBM Plex Sans', sans-serif; }
         ::selection { color: #fff; background: #3f6b4f; }
         .pixel-art { image-rendering: pixelated; }
+        .nav-section-link {
+            position: relative;
+            transition: color .25s ease, background-color .25s ease;
+        }
+        .nav-section-link::after {
+            position: absolute;
+            inset-inline: .5rem;
+            bottom: .18rem;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: '';
+            opacity: 0;
+            transform: scaleX(.25);
+            transition: opacity .25s ease, transform .35s cubic-bezier(.2, .75, .25, 1);
+        }
+        .nav-section-link.is-active {
+            color: #1c1d1a;
+            background: rgba(63, 107, 79, .08);
+        }
+        .nav-section-link.is-active::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .dark .nav-section-link.is-active {
+            color: #b7d5be;
+            background: rgba(144, 184, 157, .09);
+        }
+        .language-menu > summary {
+            list-style: none;
+        }
+        .language-menu > summary::-webkit-details-marker {
+            display: none;
+        }
+        .language-menu[open] .language-menu-chevron {
+            transform: rotate(180deg);
+        }
+        .language-menu[open] .language-menu-popover {
+            animation: language-menu-in .18s cubic-bezier(.2, .75, .25, 1) both;
+        }
+        @@keyframes language-menu-in {
+            from { opacity: 0; transform: translateY(-.35rem) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .project-gallery-backdrop {
+            filter: blur(18px) brightness(.58) saturate(.85);
+            transform: scale(1.12);
+        }
         .project-gallery-image {
             filter: blur(5px) brightness(.62);
             transform: scale(1.025);
-            transition: filter .5s ease, transform .5s ease;
+            transition: filter .5s ease, transform .55s cubic-bezier(.2, .75, .25, 1);
         }
         .project-gallery.is-visible .project-gallery-image {
             filter: blur(0) brightness(1);
@@ -81,8 +133,11 @@
         .portrait-flip-back { transform: rotateY(180deg); }
         @@media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
+            .nav-section-link,
+            .nav-section-link::after { transition: none; }
             .portrait-flip-inner { transition: none; }
             .project-gallery-image { transition: none; }
+            .language-menu[open] .language-menu-popover { animation: none; }
         }
     </style>
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
@@ -95,36 +150,47 @@
     <nav class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Main navigation">
         <a asp-page="/Index" class="text-sm font-semibold tracking-tight">@siteName</a>
 
-        <ul class="hidden items-center gap-7 text-sm md:flex">
-            <li><a href="/#work" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Work ?? (isRtl ? "پروژه‌ها" : "Work"))</a></li>
-            <li><a href="/#experience" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Experience ?? (isRtl ? "تجربه" : "Experience"))</a></li>
-            <li><a href="/#skills" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Skills ?? (isRtl ? "مهارت‌ها" : "Skills"))</a></li>
-            <li><a href="/#contact" class="text-black/55 transition hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Contact ?? (isRtl ? "تماس" : "Contact"))</a></li>
+        <ul class="hidden items-center gap-2 text-sm md:flex">
+            <li><a href="/#work" data-section-link="work" class="nav-section-link inline-flex h-9 items-center rounded-md px-2.5 text-black/55 hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Work ?? (isRtl ? "پروژه‌ها" : "Work"))</a></li>
+            <li><a href="/#experience" data-section-link="experience" class="nav-section-link inline-flex h-9 items-center rounded-md px-2.5 text-black/55 hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Experience ?? (isRtl ? "تجربه" : "Experience"))</a></li>
+            <li><a href="/#skills" data-section-link="skills" class="nav-section-link inline-flex h-9 items-center rounded-md px-2.5 text-black/55 hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Skills ?? (isRtl ? "مهارت‌ها" : "Skills"))</a></li>
+            <li><a href="/#contact" data-section-link="contact" class="nav-section-link inline-flex h-9 items-center rounded-md px-2.5 text-black/55 hover:text-black dark:text-white/55 dark:hover:text-white">@(navigation?.Contact ?? (isRtl ? "تماس" : "Contact"))</a></li>
         </ul>
 
         <div class="flex items-center gap-2">
             <a asp-page="/Lab/Index" class="hidden h-9 items-center rounded-md border border-forest/30 bg-forest/5 px-3 text-xs font-medium text-forest transition hover:bg-forest hover:text-white sm:inline-flex dark:border-[#90b89d]/30 dark:text-[#90b89d]">
                 @(navigation?.Lab ?? (isRtl ? "آزمایشگاه" : "Lab")) <span class="ms-1">↗</span>
             </a>
-            <form method="get" action="/">
-                <input type="hidden" name="lang" value="@(isRtl ? "en" : "fa")" />
-                <button type="submit" class="grid h-9 min-w-9 place-items-center rounded-md border border-black/15 px-2 text-xs font-medium transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40" aria-label="@(isRtl ? "Switch to English" : "تغییر زبان به فارسی")">
-                    @(isRtl ? "EN" : "فا")
-                </button>
-            </form>
-            <button type="button" onclick="toggleTheme()" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40" aria-label="Toggle color theme">
+            <details class="language-menu relative" data-language-menu>
+                <summary class="flex h-9 cursor-pointer select-none items-center gap-1.5 rounded-md border border-black/15 px-2.5 text-[11px] font-semibold tracking-wide text-black/65 transition hover:border-black/35 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest dark:border-white/15 dark:text-white/65 dark:hover:border-white/35 dark:hover:text-white" aria-label="@languageLabel">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.4"/><path d="M2.9 10h14.2M10 2.75c2 2 3 4.42 3 7.25s-1 5.25-3 7.25C8 15.25 7 12.83 7 10s1-5.25 3-7.25Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                    <span>@currentLanguageLabel</span>
+                    <svg class="language-menu-chevron h-3 w-3 transition-transform duration-200" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </summary>
+                <nav class="language-menu-popover absolute end-0 top-[calc(100%+.5rem)] z-50 w-40 overflow-hidden rounded-lg border border-black/10 bg-[#f7f8f3] p-1.5 text-sm shadow-[0_12px_35px_rgba(28,29,26,.16)] dark:border-white/10 dark:bg-[#20211e] dark:shadow-[0_12px_35px_rgba(0,0,0,.35)]" aria-label="@languageLabel">
+                    @foreach (var language in new[] { (Code: "en", Name: "English", Short: "EN"), (Code: "de", Name: "Deutsch", Short: "DE"), (Code: "fa", Name: "فارسی", Short: "FA") })
+                    {
+                        var isCurrentLanguage = culture == language.Code;
+                        <a href="/?lang=@language.Code" lang="@language.Code" hreflang="@language.Code" aria-current="@(isCurrentLanguage ? "page" : null)" class="flex items-center justify-between rounded-md px-3 py-2 transition @(isCurrentLanguage ? "bg-forest text-white" : "text-black/65 hover:bg-black/5 hover:text-black dark:text-white/65 dark:hover:bg-white/5 dark:hover:text-white")">
+                            <span>@language.Name</span>
+                            <span class="text-[10px] font-semibold tracking-wider @(isCurrentLanguage ? "text-white/70" : "text-black/35 dark:text-white/35")">@language.Short</span>
+                        </a>
+                    }
+                </nav>
+            </details>
+            <button type="button" onclick="toggleTheme()" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 transition hover:border-black/40 dark:border-white/15 dark:hover:border-white/40" aria-label="@themeLabel">
                 <svg class="h-4 w-4 dark:hidden" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 12.4A6.5 6.5 0 0 1 7.6 4 6.5 6.5 0 1 0 16 12.4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
                 <svg class="hidden h-4 w-4 dark:block" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.25" stroke="currentColor" stroke-width="1.4" /><path d="M10 2v1.5M10 16.5V18M2 10h1.5M16.5 10H18M4.34 4.34 5.4 5.4M14.6 14.6l1.06 1.06M15.66 4.34 14.6 5.4M5.4 14.6l-1.06 1.06" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
             </button>
-            <button id="nav-toggle" type="button" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 text-lg md:hidden dark:border-white/15" aria-label="Toggle navigation" aria-expanded="false">≡</button>
+            <button id="nav-toggle" type="button" class="grid h-9 w-9 place-items-center rounded-md border border-black/15 text-lg md:hidden dark:border-white/15" aria-label="@menuLabel" aria-expanded="false">≡</button>
         </div>
     </nav>
 
     <nav id="nav-menu-mobile" class="hidden border-t border-black/10 px-5 py-3 md:hidden dark:border-white/10" aria-label="Mobile navigation">
-        <a href="/#work" class="block py-3 text-sm">@(navigation?.Work ?? (isRtl ? "پروژه‌ها" : "Work"))</a>
-        <a href="/#experience" class="block py-3 text-sm">@(navigation?.Experience ?? (isRtl ? "تجربه" : "Experience"))</a>
-        <a href="/#skills" class="block py-3 text-sm">@(navigation?.Skills ?? (isRtl ? "مهارت‌ها" : "Skills"))</a>
-        <a href="/#contact" class="block py-3 text-sm">@(navigation?.Contact ?? (isRtl ? "تماس" : "Contact"))</a>
+        <a href="/#work" data-section-link="work" class="nav-section-link block rounded-md px-3 py-3 text-sm">@(navigation?.Work ?? (isRtl ? "پروژه‌ها" : "Work"))</a>
+        <a href="/#experience" data-section-link="experience" class="nav-section-link block rounded-md px-3 py-3 text-sm">@(navigation?.Experience ?? (isRtl ? "تجربه" : "Experience"))</a>
+        <a href="/#skills" data-section-link="skills" class="nav-section-link block rounded-md px-3 py-3 text-sm">@(navigation?.Skills ?? (isRtl ? "مهارت‌ها" : "Skills"))</a>
+        <a href="/#contact" data-section-link="contact" class="nav-section-link block rounded-md px-3 py-3 text-sm">@(navigation?.Contact ?? (isRtl ? "تماس" : "Contact"))</a>
         <a asp-page="/Lab/Index" class="my-2 inline-flex rounded-md border border-forest/30 px-3 py-2 text-xs font-medium text-forest dark:text-[#90b89d]">@(navigation?.OpenLab ?? (isRtl ? "باز کردن آزمایشگاه" : "Open Lab")) ↗</a>
     </nav>
 </header>
@@ -162,6 +228,57 @@
         navToggle.setAttribute('aria-expanded', 'false');
         navToggle.textContent = '≡';
     }));
+
+    const languageMenu = document.querySelector('[data-language-menu]');
+    document.addEventListener('click', event => {
+        if (languageMenu?.open && !languageMenu.contains(event.target)) languageMenu.removeAttribute('open');
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape' || !languageMenu?.open) return;
+        languageMenu.removeAttribute('open');
+        languageMenu.querySelector('summary')?.focus();
+    });
+
+    const sectionLinks = [...document.querySelectorAll('[data-section-link]')];
+    const trackedSections = ['work', 'experience', 'skills', 'contact']
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+    let sectionScrollFrame = 0;
+
+    function updateActiveSection() {
+        sectionScrollFrame = 0;
+        if (!trackedSections.length) return;
+
+        const marker = Math.min(window.innerHeight * .38, 320);
+        let activeSection = null;
+
+        trackedSections.forEach(section => {
+            if (section.getBoundingClientRect().top <= marker) activeSection = section;
+        });
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+            activeSection = trackedSections[trackedSections.length - 1];
+        }
+
+        sectionLinks.forEach(link => {
+            const isActive = activeSection !== null && link.dataset.sectionLink === activeSection.id;
+            link.classList.toggle('is-active', isActive);
+            if (isActive) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+        });
+    }
+
+    function scheduleActiveSectionUpdate() {
+        if (sectionScrollFrame) return;
+        sectionScrollFrame = window.requestAnimationFrame(updateActiveSection);
+    }
+
+    sectionLinks.forEach(link => link.addEventListener('click', () => {
+        sectionLinks.forEach(candidate => candidate.classList.toggle('is-active', candidate.dataset.sectionLink === link.dataset.sectionLink));
+    }));
+    window.addEventListener('scroll', scheduleActiveSectionUpdate, { passive: true });
+    window.addEventListener('resize', scheduleActiveSectionUpdate);
+    updateActiveSection();
 </script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

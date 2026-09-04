@@ -13,6 +13,13 @@ namespace Web.Pages;
 
 public class IndexModel : PageModel
 {
+    private static readonly HashSet<string> SupportedCultures = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "en",
+        "de",
+        "fa"
+    };
+
     private readonly IMediator _mediator;
     private readonly ILogger<IndexModel> _logger;
     private readonly ContactSubmissionRateLimiter _contactRateLimiter;
@@ -42,14 +49,14 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync(string? lang)
     {
-        if (!string.IsNullOrEmpty(lang) && (lang == "en" || lang == "fa"))
+        if (!string.IsNullOrWhiteSpace(lang) && SupportedCultures.Contains(lang))
         {
-            Response.Cookies.Append("culture", lang, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
-            Culture = lang;
+            Culture = lang.ToLowerInvariant();
+            Response.Cookies.Append("culture", Culture, new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
         }
         else
         {
-            Culture = Request.Cookies["culture"] ?? "en";
+            Culture = GetSavedCulture();
         }
 
         ViewData["Culture"] = Culture;
@@ -58,7 +65,7 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        Culture = Request.Cookies["culture"] ?? "en";
+        Culture = GetSavedCulture();
         ViewData["Culture"] = Culture;
 
         if (!ModelState.IsValid)
@@ -92,6 +99,14 @@ public class IndexModel : PageModel
 
         await LoadContentAsync();
         return Page();
+    }
+
+    private string GetSavedCulture()
+    {
+        var savedCulture = Request.Cookies["culture"];
+        return !string.IsNullOrWhiteSpace(savedCulture) && SupportedCultures.Contains(savedCulture)
+            ? savedCulture.ToLowerInvariant()
+            : "en";
     }
 
     private async Task LoadContentAsync()

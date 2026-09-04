@@ -14,6 +14,19 @@
     "status": "در حال توسعه"
   },
   {
+    "title": "Emart",
+    "description": "وب‌سایت آمادهٔ بهره‌برداری برای آژانس دیجیتال مارکتینگ فارسی، شامل سایت عمومی مدیریت‌پذیر، بلاگ، نمونه‌کارها، ابزارهای سئو و پنل مدیریت امن.",
+    "techStack": ["ASP.NET Core MVC", "C#", "PostgreSQL", "Entity Framework Core", "Identity", "Tailwind CSS"],
+    "gitHubUrl": null,
+    "liveDemoUrl": "https://emart-preview.onrender.com/",
+    "imageUrl": "/images/projects/emart-landing.webp",
+    "imageUrls": [
+      "/images/projects/emart-landing.webp",
+      "/images/projects/emart-admin.webp"
+    ],
+    "status": "در دسترس"
+  },
+  {
     "title": "OutRight",
     "description": "اپلیکیشن فول‌استک تجارت الکترونیک برای محصولات گیمینگ، شامل کاتالوگ، احراز هویت، خرید و مدیریت سفارش.",
     "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],

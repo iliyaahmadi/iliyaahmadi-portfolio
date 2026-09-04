@@ -14,6 +14,19 @@
     "status": "In development"
   },
   {
+    "title": "Emart",
+    "description": "A production-ready Persian digital marketing agency website with a content-managed public site, blog, portfolio, SEO tooling, and a secure administration dashboard.",
+    "techStack": ["ASP.NET Core MVC", "C#", "PostgreSQL", "Entity Framework Core", "Identity", "Tailwind CSS"],
+    "gitHubUrl": null,
+    "liveDemoUrl": "https://emart-preview.onrender.com/",
+    "imageUrl": "/images/projects/emart-landing.webp",
+    "imageUrls": [
+      "/images/projects/emart-landing.webp",
+      "/images/projects/emart-admin.webp"
+    ],
+    "status": "Available"
+  },
+  {
     "title": "OutRight",
     "description": "A full-stack e-commerce application for gaming products, with catalog, authentication, shopping, and order flows.",
     "techStack": ["React", "Material UI", "Node.js", "PostgreSQL"],

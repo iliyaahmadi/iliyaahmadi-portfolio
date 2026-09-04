@@ -1,0 +1,44 @@
+{
+  "pageTitle": "Softwareentwickler",
+  "metaDescription": "Iliya Ahmadi – Backend-orientierter Softwareentwickler mit Schwerpunkt auf Node.js und .NET.",
+  "siteName": "Iliya Ahmadi",
+  "navigation": {
+    "work": "Projekte",
+    "experience": "Erfahrung",
+    "skills": "Kompetenzen",
+    "contact": "Kontakt",
+    "lab": "Lab",
+    "openLab": "Lab öffnen"
+  },
+  "greeting": "Hallo, ich bin",
+  "name": "Iliya Ahmadi",
+  "title": "Softwareentwickler",
+  "bio": "Backend-orientierter Softwareentwickler mit Schwerpunkt auf Node.js und .NET, der bei Bedarf auch vollständige End-to-End-Lösungen umsetzt. Ich entwerfe APIs und Dienste und lege Wert auf zuverlässigen, wartbaren Code, der nicht komplexer ist als nötig.",
+  "details": [
+    { "text": "Istanbul, Türkei", "icon": "location" },
+    { "text": "Remote und umzugsbereit", "icon": "status" }
+  ],
+  "actions": [
+    {
+      "key": "work",
+      "text": "Projekte ansehen",
+      "url": "#work",
+      "style": "primary",
+      "openInNewTab": false
+    },
+    {
+      "key": "resume",
+      "text": "Lebenslauf ansehen",
+      "url": "https://drive.google.com/file/d/1hj6eQTa1CEkTYAkX9p-zkouZU94Ebm07/view?usp=drive_link",
+      "style": "secondary",
+      "openInNewTab": true
+    },
+    {
+      "key": "contact",
+      "text": "Kontakt aufnehmen",
+      "url": "#contact",
+      "style": "link",
+      "openInNewTab": false
+    }
+  ]
+}
